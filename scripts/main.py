@@ -2,15 +2,13 @@ import pygame
 from sys import exit
 from player.player import Player
 from player.player_controls import PlayerControls
-from map.rooms.room import Room
-
-from items.item import Item
-from items.items_module import item_example
+from map.rooms.initial_room import InitialRoom
 
 pygame.init()
-screen = pygame.display.set_mode((400, 225))
+screen = pygame.display.set_mode((608, 352))
 clock = pygame.time.Clock()
 
+current_room = InitialRoom()
 players = [
   Player(
     x = 0,
@@ -39,10 +37,11 @@ players = [
     ),
   ),
 ]
-current_room = Room([], [Item(item_example, 150, 150)]) # TODO adicionar a Sala Inicial
 
 def draw(screen: pygame.Surface):
   screen.fill("black")
+
+  current_room.draw(screen)
 
   for item in current_room.items:
     item.draw(screen)
