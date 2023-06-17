@@ -19,13 +19,24 @@ class Player:
   items = []
   max_health = 5
   health = 5
+  invincible = False
   speed = 0.15
 
-  def update(self, dt: int, keys_pressed):
-    if keys_pressed[self.controls.DODGE]:
-      self.__dodge()
-    elif keys_pressed[self.controls.ATTACK]:
-      self.__attack()
+  dodge_speed = 0.3
+  dodge_duration = 200
+  dodge_timer = dodge_duration
+
+  def update(self, dt: int, keys_pressed, keys_just_pressed):
+    if self.dodge_timer < self.dodge_duration:
+      self.__dodge(keys_pressed, dt)
+      self.dodge_timer += dt
+
+    elif len(keys_just_pressed) > 0:
+      if keys_just_pressed[self.controls.DODGE]:
+        self.dodge_timer = 0
+      elif keys_just_pressed[self.controls.ATTACK]:
+        self.__attack()
+
     else:
       self.move(dt, keys_pressed)
 
@@ -43,7 +54,7 @@ class Player:
 
   def move(self, dt: int, keys_pressed):
     normalizer = self.__movement_normalizer(keys_pressed)
-  
+
     if keys_pressed[self.controls.UP]:
       self.y -= self.speed / normalizer * dt
     elif keys_pressed[self.controls.DOWN]:
@@ -69,5 +80,16 @@ class Player:
   def __attack(self):
     pass # TODO implementar método
 
-  def __dodge(self):
-    pass # TODO implementar método
+  def __dodge(self, keys_pressed, dt):
+    self.invincible = True
+    normalizer = self.__movement_normalizer(keys_pressed)
+
+    if keys_pressed[self.controls.UP]:
+      self.y -= self.dodge_speed / normalizer * dt
+    elif keys_pressed[self.controls.DOWN]:
+      self.y += self.dodge_speed / normalizer * dt
+
+    if keys_pressed[self.controls.RIGHT]:
+      self.x += self.dodge_speed / normalizer * dt
+    elif keys_pressed[self.controls.LEFT]:
+      self.x -= self.dodge_speed / normalizer * dt

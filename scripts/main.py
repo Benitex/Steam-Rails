@@ -52,13 +52,13 @@ def draw(screen: pygame.Surface):
   
   pygame.display.update()
 
-def update():
+def update(keys_just_pressed):
   clock.tick(60)
   dt = clock.get_time()
   keys_pressed = pygame.key.get_pressed()
 
   for player in players:
-    player.update(dt, keys_pressed)
+    player.update(dt, keys_pressed, keys_just_pressed)
 
     for item in current_room.items:
       if item.is_colliding_with(player):
@@ -67,10 +67,13 @@ def update():
         current_room.items.remove(item)
 
 while True:
+  keys_just_pressed = []
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
       pygame.quit()
       exit()
+    if event.type == pygame.KEYDOWN:
+      keys_just_pressed = pygame.key.get_pressed()
 
-  update()
+  update(keys_just_pressed)
   draw(screen)
