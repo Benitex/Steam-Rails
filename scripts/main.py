@@ -11,27 +11,27 @@ clock = pygame.time.Clock()
 current_room = InitialRoom()
 players = [
   Player(
-    x = 0,
-    y = 0,
+    x = 190, y = 90,
     spritesheet = pygame.image.load("placeholder/graphics/player.png"), # TODO adicionar o sprite real
     controls = PlayerControls(
       up = pygame.K_UP,
       down = pygame.K_DOWN,
       left = pygame.K_LEFT,
       right = pygame.K_RIGHT,
+      action = pygame.K_SPACE,
       attack = pygame.K_SPACE,
       dodge = pygame.K_LSHIFT,
     ),
   ),
   Player(
-    x = 100,
-    y = 0,
+    x = 290, y = 90,
     spritesheet = pygame.image.load("placeholder/graphics/player.png"), # TODO adicionar o sprite real
     controls = PlayerControls(
       up = pygame.K_w,
       down = pygame.K_s,
       left = pygame.K_a,
       right = pygame.K_d,
+      action = pygame.K_SPACE,
       attack = pygame.K_SPACE,
       dodge = pygame.K_LSHIFT,
     ),
