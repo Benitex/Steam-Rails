@@ -1,19 +1,15 @@
 import pygame
+from enemies.enemy_type import EnemyType
 from player.player import Player
 from math import hypot
 
 class Enemy:
-  def __init__(self, spritesheet: pygame.Surface, x: int, y: int, speed: float, health: int, damage: int) -> None:
-    self.spritesheet = spritesheet
+  def __init__(self, enemy_type: EnemyType, x: int, y: int) -> None:
+    self.type = enemy_type
     self.x = x
     self.y = y
-    self.health = health
-    self.damage = damage
-    self.speed = speed
-    # TODO adicionar drops
 
   x, y = 0, 0
-  width, height = 32, 32
 
   collider = pygame.Rect(0, 0, 0, 0)
   chosen_player = Player
@@ -24,12 +20,12 @@ class Enemy:
 
     self.collider = pygame.Rect(
       (self.x, self.y),
-      (self.width, self.height),
+      (self.type.width, self.type.height),
     )
 
   def draw(self, screen: pygame.Surface):
     screen.blit(
-      source = self.spritesheet,
+      source = self.type.spritesheet,
       dest = (self.x, self.y),
       # area = (), TODO adicionar animações
     )
@@ -39,14 +35,14 @@ class Enemy:
     # TODO parar o movimento se estiver muito perto do jogador
 
     if self.x < self.chosen_player.x:
-      self.x += self.speed / normalizer * dt
+      self.x += self.type.speed / normalizer * dt
     elif self.x > self.chosen_player.x:
-      self.x -= self.speed / normalizer * dt
+      self.x -= self.type.speed / normalizer * dt
 
     if self.y < self.chosen_player.y:
-      self.y += self.speed / normalizer * dt
+      self.y += self.type.speed / normalizer * dt
     elif self.y > self.chosen_player.y:
-      self.y -= self.speed / normalizer * dt
+      self.y -= self.type.speed / normalizer * dt
 
   def __movement_normalizer(self) -> float:
     if self.y < self.chosen_player.y and self.x > self.chosen_player.x:
