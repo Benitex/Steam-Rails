@@ -26,6 +26,8 @@ class Player:
   dodge_duration = 200
   dodge_timer = dodge_duration
 
+  def is_dead(self) -> bool: return self.health <= 0
+
   def update(self, dt: int, keys_pressed, keys_just_pressed):
     if self.dodge_timer < self.dodge_duration:
       self.__dodge(keys_pressed, dt)
@@ -38,7 +40,7 @@ class Player:
         self.__attack()
 
     else:
-      self.move(dt, keys_pressed)
+      self.__move(dt, keys_pressed)
 
     self.collider = pygame.Rect(
       (self.x, self.y + self.HEIGHT),
@@ -52,7 +54,7 @@ class Player:
       # area = (), TODO adicionar animações
     )
 
-  def move(self, dt: int, keys_pressed):
+  def __move(self, dt: int, keys_pressed):
     normalizer = self.__movement_normalizer(keys_pressed)
 
     if keys_pressed[self.controls.UP]:

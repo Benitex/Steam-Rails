@@ -1,5 +1,6 @@
 import pygame
 from map.tileset import Tileset
+from enemies.enemy import Enemy
 
 class Room:
   def __init__(self, tile_layers_files: list, enemies = [], items = [], chests = []) -> None:
@@ -14,7 +15,13 @@ class Room:
 
     if len(enemies) == 0:
       # TODO gerar inimigos aleatoriamente
-      pass
+      enemies.append(Enemy(
+        spritesheet = pygame.image.load("placeholder/graphics/enemy.png"),
+        x = 150, y = 150,
+        speed = 0.1,
+        damage = 1,
+        health = 2,
+      ))
 
   TILESET = Tileset(
     image = pygame.image.load("placeholder/graphics/tileset.png"), # TODO adicionar o tileset real

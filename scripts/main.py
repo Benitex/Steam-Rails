@@ -5,13 +5,13 @@ from player.player_controls import PlayerControls
 from map.rooms.initial_room import InitialRoom
 
 pygame.init()
-screen = pygame.display.set_mode((608, 352))
+screen = pygame.display.set_mode((608, 384))
 clock = pygame.time.Clock()
 
 current_room = InitialRoom()
 players = [
   Player(
-    x = 190, y = 90,
+    x = 190, y = 192,
     spritesheet = pygame.image.load("placeholder/graphics/player.png"), # TODO adicionar o sprite real
     controls = PlayerControls(
       up = pygame.K_UP,
@@ -24,7 +24,7 @@ players = [
     ),
   ),
   Player(
-    x = 290, y = 90,
+    x = 290, y = 192,
     spritesheet = pygame.image.load("placeholder/graphics/player.png"), # TODO adicionar o sprite real
     controls = PlayerControls(
       up = pygame.K_w,
@@ -46,6 +46,9 @@ def draw(screen: pygame.Surface):
   for item in current_room.items:
     item.draw(screen)
 
+  for enemy in current_room.enemies:
+    enemy.draw(screen)
+
   for player in players:
     if player.health > 0:
       player.draw(screen)
@@ -56,6 +59,9 @@ def update(keys_just_pressed):
   clock.tick(60)
   dt = clock.get_time()
   keys_pressed = pygame.key.get_pressed()
+
+  for enemy in current_room.enemies:
+    enemy.update(dt, players)
 
   for player in players:
     player.update(dt, keys_pressed, keys_just_pressed)
