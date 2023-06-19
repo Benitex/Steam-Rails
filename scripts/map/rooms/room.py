@@ -1,14 +1,17 @@
 import pygame
 import random
 from map.tileset import Tileset
+from entity import Entity
+from player.player import Player
 from enemies.enemy import Enemy
 from data.enemies import enemy_types_list
 
 class Room:
-  def __init__(self, tile_layers_files: list, enemies_amount = 3, enemies = [], items = [], chests = []) -> None:
+  def __init__(self, tile_layers_files: list, players: list[Player], enemies_amount = 3, enemies = [], items = [], chests = []) -> None:
     self.tile_layers = [
       self.__convert_CSV_to_map_layer(file) for file in tile_layers_files
     ]
+    self.players = players
     self.enemies = enemies
     self.items = items
     self.chests = chests
@@ -61,3 +64,6 @@ class Room:
 
     return layer
 
+  def get_entities(self) -> list[Entity]:
+    return self.enemies + self.items + self.chests
+  

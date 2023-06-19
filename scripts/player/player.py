@@ -1,20 +1,20 @@
 import pygame
+from entity import Entity
 from player.player_controls import PlayerControls
+from items.item import Item
 
-class Player:
-  def __init__(self, controls: PlayerControls, spritesheet: pygame.Surface, x: int, y: int, items = []) -> None:
+class Player(Entity):
+  def __init__(self, controls: PlayerControls, spritesheet: pygame.Surface, x: float, y: float, items = []) -> None:
+    super().__init__(
+      x = x,
+      y = y,
+      width = 32,
+      height = 32,
+    )
     self.controls = controls
     self.spritesheet = spritesheet
 
-    self.x = x
-    self.y = y
-
     self.items = items
-
-  x, y = 0, 0
-  WIDTH, HEIGHT = 32, 32
-
-  collider = pygame.Rect(0, 0, 0, 0)
 
   items = []
   max_health = 5
@@ -28,7 +28,7 @@ class Player:
 
   def is_dead(self) -> bool: return self.health <= 0
 
-  def update(self, dt: int, keys_pressed, keys_just_pressed):
+  def update(self, dt: int, keys_pressed, keys_just_pressed, room):
     if self.dodge_timer < self.dodge_duration:
       self.__dodge(keys_pressed, dt)
       self.dodge_timer += dt
@@ -43,9 +43,10 @@ class Player:
       self.__move(dt, keys_pressed)
 
     self.collider = pygame.Rect(
-      (self.x, self.y + self.HEIGHT),
-      (self.WIDTH, self.HEIGHT),
+      (self.x, self.y + self.height),
+      (self.width, self.height),
     )
+    self.__collide(keys_just_pressed, room)
 
   def draw(self, screen: pygame.Surface):
     screen.blit(
@@ -53,6 +54,14 @@ class Player:
       dest = (self.x, self.y),
       # area = (), TODO adicionar animações
     )
+
+  def __collide(self, keys_just_pressed, room):
+    for entity in room.get_entities():
+      if self.is_colliding_with(entity):
+        if type(entity) == Item:
+          if len(keys_just_pressed) > 0 and keys_just_pressed[self.controls.ACTION]:
+            self.pick_item(entity)
+            room.items.remove(entity)
 
   def __move(self, dt: int, keys_pressed):
     normalizer = self.__movement_normalizer(keys_pressed)
@@ -95,3 +104,7 @@ class Player:
       self.x += self.dodge_speed / normalizer * dt
     elif keys_pressed[self.controls.LEFT]:
       self.x -= self.dodge_speed / normalizer * dt
+
+  def pick_item(self, item: Item):
+    item.apply_effect(self)
+    self.items.append(item)

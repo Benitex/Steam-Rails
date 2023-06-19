@@ -1,7 +1,5 @@
 import pygame
 from sys import exit
-from player.player import Player
-from player.player_controls import PlayerControls
 from map.rooms.initial_room import InitialRoom
 
 pygame.init()
@@ -9,34 +7,6 @@ screen = pygame.display.set_mode((608, 384))
 clock = pygame.time.Clock()
 
 current_room = InitialRoom()
-players = [
-  Player(
-    x = 190, y = 192,
-    spritesheet = pygame.image.load("placeholder/graphics/player.png"), # TODO adicionar o sprite real
-    controls = PlayerControls(
-      up = pygame.K_UP,
-      down = pygame.K_DOWN,
-      left = pygame.K_LEFT,
-      right = pygame.K_RIGHT,
-      action = pygame.K_SPACE,
-      attack = pygame.K_SPACE,
-      dodge = pygame.K_LSHIFT,
-    ),
-  ),
-  Player(
-    x = 290, y = 192,
-    spritesheet = pygame.image.load("placeholder/graphics/player.png"), # TODO adicionar o sprite real
-    controls = PlayerControls(
-      up = pygame.K_w,
-      down = pygame.K_s,
-      left = pygame.K_a,
-      right = pygame.K_d,
-      action = pygame.K_SPACE,
-      attack = pygame.K_SPACE,
-      dodge = pygame.K_LSHIFT,
-    ),
-  ),
-]
 
 def draw(screen: pygame.Surface):
   screen.fill("black")
@@ -49,9 +19,8 @@ def draw(screen: pygame.Surface):
   for enemy in current_room.enemies:
     enemy.draw(screen)
 
-  for player in players:
-    if player.health > 0:
-      player.draw(screen)
+  for player in current_room.players:
+    player.draw(screen)
   
   pygame.display.update()
 
@@ -61,16 +30,15 @@ def update(keys_just_pressed):
   keys_pressed = pygame.key.get_pressed()
 
   for enemy in current_room.enemies:
-    enemy.update(dt, players)
+    enemy.update(dt, current_room.players)
 
-  for player in players:
-    player.update(dt, keys_pressed, keys_just_pressed)
-
-    for item in current_room.items:
-      if item.is_colliding_with(player):
-        item.apply_effect(player)
-        player.items.append(item)
-        current_room.items.remove(item)
+  for player in current_room.players:
+    player.update(
+      dt,
+      keys_pressed,
+      keys_just_pressed,
+      current_room,
+    )
 
 while True:
   keys_just_pressed = []

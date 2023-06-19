@@ -1,28 +1,22 @@
-import pygame
+from pygame import Surface
 from items.item_type import ItemType
-from player.player import Player
+from entity import Entity
 
-class Item:
-  def __init__(self, item_type: ItemType, x: int, y: int) -> None:
+class Item(Entity):
+  def __init__(self, item_type: ItemType, x: float, y: float) -> None:
+    super().__init__(
+      x = x,
+      y = y,
+      width = 32,
+      height = 32,
+    )
     self.item_type = item_type
 
-    self.x = x
-    self.y = y
-    self.collider = pygame.Rect(
-      (self.x, self.y),
-      (self.WIDTH, self.HEIGHT),
-    )
-
-  WIDTH, HEIGHT = 32, 32
-
-  def draw(self, screen: pygame.Surface):
+  def draw(self, screen: Surface):
     screen.blit(
       source = self.item_type.image,
       dest = (self.x, self.y),
     )
 
-  def is_colliding_with(self, player: Player) -> bool:
-    return self.collider.colliderect(player.collider)
-
-  def apply_effect(self, player: Player):
+  def apply_effect(self, player):
     self.item_type.effect(player)
