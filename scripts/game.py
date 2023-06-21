@@ -1,10 +1,11 @@
 import pygame
+from random import randint
+from scripts.map.rooms.room import Room
 from scripts.map.rooms.initial_room import InitialRoom
 
 class Game: # TODO substituir pelo nome do jogo
   current_room = InitialRoom()
   players = []
-  clock = pygame.time.Clock()
 
   def draw(self, screen: pygame.Surface):
     screen.fill("black")
@@ -22,9 +23,7 @@ class Game: # TODO substituir pelo nome do jogo
 
     pygame.display.update()
 
-  def update(self, keys_just_pressed):
-    self.clock.tick(60)
-    dt = self.clock.get_time()
+  def update(self, dt: int, keys_just_pressed):
     keys_pressed = pygame.key.get_pressed()
 
     for enemy in self.current_room.enemies:
@@ -40,3 +39,20 @@ class Game: # TODO substituir pelo nome do jogo
 
     if type(self.current_room) == InitialRoom:
       self.current_room.add_players(self.players, keys_pressed)
+
+    if self.current_room.door.should_change_room(self.players):
+      self.move_to_next_room()
+
+  def move_to_next_room(self):
+    for player_number, player in enumerate(self.players):
+      player.x = 128
+      player.y = 128 + player_number * 32
+
+    self.current_room = Room(
+      tile_layers_files = [
+        open("placeholder/data/initial_room/initial_room_1.csv"),
+        open("placeholder/data/initial_room/initial_room_2.csv"),
+      ],
+      number_of_players = len(self.players),
+      number_of_enemies = randint(2, 4),
+    )

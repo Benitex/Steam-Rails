@@ -5,6 +5,7 @@ from scripts.game import Game
 pygame.init()
 game = Game()
 screen = pygame.display.set_mode((608, 384))
+clock = pygame.time.Clock()
 
 while True:
   keys_just_pressed = []
@@ -15,5 +16,8 @@ while True:
     if event.type == pygame.KEYDOWN:
       keys_just_pressed = pygame.key.get_pressed()
 
-  game.update(keys_just_pressed)
+  clock.tick(60)
+  dt = clock.get_time()
+
+  game.update(dt, keys_just_pressed)
   game.draw(screen)

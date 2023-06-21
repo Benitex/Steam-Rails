@@ -12,6 +12,7 @@ class Enemy(Entity):
       height = enemy_type.height,
     )
     self.type = enemy_type
+    self.health = enemy_type.health
 
   chosen_player = None
 

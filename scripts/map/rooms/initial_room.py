@@ -55,7 +55,7 @@ class InitialRoom(Room):
             return
 
         players.append(Player(
-          x = 190 + number_of_players * 100,
+          x = 192 + number_of_players * 96,
           y = 192,
           controls = controls,
           spritesheet = self.PLAYER_SPRITES[number_of_players],
