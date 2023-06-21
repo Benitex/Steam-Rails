@@ -17,3 +17,6 @@ class PlayerControls:
   ACTION = pygame.K_SPACE
   ATTACK = pygame.K_SPACE
   DODGE = pygame.K_LSHIFT
+
+  def is_any_key_in_controls_pressed(self, keys_pressed):
+    return keys_pressed[self.UP] or keys_pressed[self.DOWN] or keys_pressed[self.LEFT] or keys_pressed[self.RIGHT] or keys_pressed[self.ACTION] or keys_pressed[self.ATTACK] or keys_pressed[self.DODGE]
