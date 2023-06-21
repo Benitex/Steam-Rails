@@ -1,5 +1,5 @@
 from pygame import image
-from enemies.enemy_type import EnemyType
+from scripts.enemies.enemy_type import EnemyType
 from data.items import *
 
 ENEMY_EXAMPLE = EnemyType(

@@ -1,6 +1,6 @@
 from pygame import Surface
-from items.item_type import ItemType
-from entity import Entity
+from scripts.items.item_type import ItemType
+from scripts.entity import Entity
 
 class Item(Entity):
   def __init__(self, item_type: ItemType, x: float, y: float) -> None:

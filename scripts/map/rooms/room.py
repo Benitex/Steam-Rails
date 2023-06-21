@@ -1,9 +1,9 @@
 import pygame
 import random
-from map.tileset import Tileset
-from entity import Entity
-from player.player import Player
-from enemies.enemy import Enemy
+from scripts.map.tileset import Tileset
+from scripts.entity import Entity
+from scripts.player.player import Player
+from scripts.enemies.enemy import Enemy
 from data.enemies import enemy_types_list
 
 class Room:

@@ -1,7 +1,7 @@
 import pygame
-from map.rooms.room import Room
-from player.player import Player
-from player.player_controls import PlayerControls
+from scripts.map.rooms.room import Room
+from scripts.player.player import Player
+from scripts.player.player_controls import PlayerControls
 
 class InitialRoom(Room):
   def __init__(self) -> None:

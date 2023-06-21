@@ -1,7 +1,7 @@
 import pygame
-from enemies.enemy_type import EnemyType
-from entity import Entity
-from player.player import Player
+from scripts.enemies.enemy_type import EnemyType
+from scripts.entity import Entity
+from scripts.player.player import Player
 
 class Enemy(Entity):
   def __init__(self, enemy_type: EnemyType, x: float, y: float) -> None:

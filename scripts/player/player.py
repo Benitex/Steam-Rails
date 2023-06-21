@@ -1,7 +1,7 @@
 import pygame
-from entity import Entity
-from player.player_controls import PlayerControls
-from items.item import Item
+from scripts.entity import Entity
+from scripts.player.player_controls import PlayerControls
+from scripts.items.item import Item
 
 class Player(Entity):
   def __init__(self, controls: PlayerControls, spritesheet: pygame.Surface, x: float, y: float, items = []) -> None:
