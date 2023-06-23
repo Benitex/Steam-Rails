@@ -1,10 +1,11 @@
 import pygame
 from scripts.entity import Entity
 from scripts.player.player_controls import PlayerControls
+from scripts.player.weapon.weapon import Weapon
 from scripts.items.item import Item
 
 class Player(Entity):
-  def __init__(self, controls: PlayerControls, spritesheet: pygame.Surface, x: float, y: float, items = []) -> None:
+  def __init__(self, controls: PlayerControls, spritesheet: pygame.Surface, x: float, y: float, items = None) -> None:
     super().__init__(
       x = x,
       y = y,
@@ -14,30 +15,56 @@ class Player(Entity):
     self.controls = controls
     self.spritesheet = spritesheet
 
-    self.items = items
+    self.items = items or []
 
-  items = []
   max_health = 5
   health = 5
-  invincible = False
   speed = 0.15
+  weapon = None
 
   dodge_speed = 0.3
   dodge_duration = 200
   dodge_timer = dodge_duration
+  attack_timer = 0
 
   def is_dead(self) -> bool: return self.health <= 0
 
+  def is_invincible(self) -> bool:
+    return self.is_dodging() # TODO adicionar iframes após levar dano
+
+  def is_attacking(self) -> bool:
+    if type(self.weapon) != Weapon: return False
+    return self.attack_timer < self.weapon.type.attack_duration
+
+  def is_dodging(self) -> bool:
+    return self.dodge_timer < self.dodge_duration
+
+  # Equipa uma nova arma e retorna a antiga (se houver uma)
+  def change_weapon(self, weapon: Weapon):
+    old_weapon = self.weapon
+    self.weapon = weapon
+    self.attack_timer = weapon.type.attack_duration
+    if type(old_weapon) == Weapon: return old_weapon
+
+  def pick_item(self, item: Item):
+    item.apply_effect(self)
+    self.items.append(item)
+
   def update(self, dt: int, keys_pressed, keys_just_pressed, room):
-    if self.dodge_timer < self.dodge_duration:
+    if self.is_attacking():
+      self.__attack(dt = dt, enemies = room.enemies)
+
+    elif self.is_dodging():
       self.__dodge(keys_pressed, dt)
-      self.dodge_timer += dt
 
     elif len(keys_just_pressed) > 0:
       if keys_just_pressed[self.controls.DODGE]:
         self.dodge_timer = 0
       elif keys_just_pressed[self.controls.ATTACK]:
-        self.__attack()
+        if type(self.weapon) == Weapon:
+          self.attack_timer = 0
+          self.__attack(dt = dt, enemies = room.enemies)
+        # else: TODO avisar que nenhuma arma está equipada
 
     else:
       self.__move(dt, keys_pressed)
@@ -54,6 +81,8 @@ class Player(Entity):
       dest = (self.x, self.y),
       # area = (), TODO adicionar animações
     )
+    if type(self.weapon) == Weapon and self.is_attacking():
+      self.weapon.draw(screen)
 
   def __collide(self, keys_just_pressed, room):
     for entity in room.get_entities():
@@ -88,11 +117,8 @@ class Player(Entity):
   
     return 1
 
-  def __attack(self):
-    pass # TODO implementar método
-
   def __dodge(self, keys_pressed, dt):
-    self.invincible = True
+    self.dodge_timer += dt
     normalizer = self.__movement_normalizer(keys_pressed)
 
     if keys_pressed[self.controls.UP]:
@@ -105,6 +131,14 @@ class Player(Entity):
     elif keys_pressed[self.controls.LEFT]:
       self.x -= self.dodge_speed / normalizer * dt
 
-  def pick_item(self, item: Item):
-    item.apply_effect(self)
-    self.items.append(item)
+  def __attack(self, dt: int, enemies: list):
+    if type(self.weapon) != Weapon:
+      raise Exception("No weapon equiped in instance of Player")
+
+    self.attack_timer += dt
+    self.weapon.update(
+      enemies = enemies,
+      # TODO adicionar posicionamento por direção do jogador
+      x = self.x,
+      y = self.y,
+    )
