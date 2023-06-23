@@ -38,7 +38,9 @@ class Game: # TODO substituir pelo nome do jogo
       )
 
     if type(self.current_room) == InitialRoom:
-      self.current_room.add_players(self.players, keys_pressed)
+      self.current_room.update(self.players, keys_pressed)
+    elif type(self.current_room) == Room:
+      self.current_room.update()
 
     if self.current_room.door.should_change_room(self.players):
       self.move_to_next_room()

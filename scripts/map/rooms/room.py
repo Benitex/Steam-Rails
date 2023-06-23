@@ -47,6 +47,10 @@ class Room:
   MAP_WIDTH = 19 # quantidade de tiles em uma linha do mapa
   CHEST_SPAWN_RATE = 25
 
+  def update(self):
+    if self.__should_open_the_door():
+      self.door.is_open = True
+
   def draw(self, screen: pygame.Surface):
     for layer in self.tile_layers:
       for tile_number, tile in enumerate(layer):
@@ -76,6 +80,9 @@ class Room:
         layer.append(int(tile))
 
     return layer
+
+  def __should_open_the_door(self) -> bool:
+    return len(self.enemies) == 0
 
   def get_entities(self) -> list[Entity]:
     return self.enemies + self.items + self.chests

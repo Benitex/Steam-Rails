@@ -57,7 +57,20 @@ class InitialRoom(Room):
     pygame.image.load("placeholder/graphics/player.png"),
   ]
 
-  def add_players(self, players: list[Player], keys_pressed):
+  def update(self, players: list[Player], keys_pressed):
+    self.__add_players(players, keys_pressed)
+    if self.__should_open_the_door(players):
+      self.door.is_open = True
+
+  def __should_open_the_door(self, players: list[Player]) -> bool:
+    if len(players) == 0: return False
+    for player in players:
+      if player.weapon == None:
+        return False
+
+    return True
+
+  def __add_players(self, players: list[Player], keys_pressed):
     number_of_players = len(players)
     if number_of_players > 3: return
 
