@@ -1,7 +1,9 @@
-import pygame
+import pygame, random
 from scripts.map.rooms.room import Room
+from scripts.map.objects.chest import Chest
 from scripts.player.player import Player
 from scripts.player.player_controls import PlayerControls
+from data.weapons import melee_weapons, ranged_weapons
 
 class InitialRoom(Room):
   def __init__(self) -> None:
@@ -13,7 +15,18 @@ class InitialRoom(Room):
       number_of_players = 0,
       number_of_enemies = 0,
       chests = [
-        # TODO adicionar armas aleatórias no baú, uma ranged e uma melee
+        Chest(
+          weapon_type = random.choice(melee_weapons),
+          is_infinite = True,
+          sprite = self.CHEST_SPRITE,
+          x = 224, y = 128,
+        ),
+        Chest(
+          weapon_type = random.choice(ranged_weapons),
+          is_infinite = True,
+          sprite = self.CHEST_SPRITE,
+          x = 352, y = 128,
+        ),
       ],
     )
 

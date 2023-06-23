@@ -2,9 +2,11 @@ import pygame
 import random
 from scripts.map.tileset import Tileset
 from scripts.map.objects.door import Door
+from scripts.map.objects.chest import Chest
 from scripts.entity import Entity
 from scripts.enemies.enemy import Enemy
 from data.enemies import enemy_types_list
+from data.weapons import weapons
 
 class Room:
   def __init__(self, tile_layers_files: list, number_of_players: int, number_of_enemies = 3, enemies = None, items = None, chests = None) -> None:
@@ -36,6 +38,12 @@ class Room:
     tiles_in_a_row = 10,
     collisionable_tiles = [],
   )
+  CHEST_SPRITE = TILESET.image.subsurface(
+    pygame.Rect(
+      (0, 8 * TILESET.tile_size),
+      (TILESET.tile_size, TILESET.tile_size),
+    )
+  )
   MAP_WIDTH = 19 # quantidade de tiles em uma linha do mapa
   CHEST_SPAWN_RATE = 25
 
@@ -57,6 +65,9 @@ class Room:
             self.TILESET.tile_size,
           ),
         )
+
+    for chest in self.chests:
+      chest.draw(screen)
 
   def __convert_CSV_to_map_layer(self, file) -> list[int]:
     layer = []

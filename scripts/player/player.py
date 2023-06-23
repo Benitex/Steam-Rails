@@ -3,6 +3,7 @@ from scripts.entity import Entity
 from scripts.player.player_controls import PlayerControls
 from scripts.player.weapon.weapon import Weapon
 from scripts.items.item import Item
+from scripts.map.objects.chest import Chest
 
 class Player(Entity):
   def __init__(self, controls: PlayerControls, spritesheet: pygame.Surface, x: float, y: float, items = None) -> None:
@@ -40,10 +41,10 @@ class Player(Entity):
     return self.dodge_timer < self.dodge_duration
 
   # Equipa uma nova arma e retorna a antiga (se houver uma)
-  def change_weapon(self, weapon: Weapon):
+  def change_weapon(self, new_weapon: Weapon):
     old_weapon = self.weapon
-    self.weapon = weapon
-    self.attack_timer = weapon.type.attack_duration
+    self.weapon = new_weapon
+    self.attack_timer = new_weapon.type.attack_duration
     if type(old_weapon) == Weapon: return old_weapon
 
   def pick_item(self, item: Item):
@@ -91,6 +92,10 @@ class Player(Entity):
           if len(keys_just_pressed) > 0 and keys_just_pressed[self.controls.ACTION]:
             self.pick_item(entity)
             room.items.remove(entity)
+
+        if type(entity) == Chest:
+          if len(keys_just_pressed) > 0 and keys_just_pressed[self.controls.ACTION]:
+            self.change_weapon(entity.change_weapons(self.weapon))
 
   def __move(self, dt: int, keys_pressed):
     normalizer = self.__movement_normalizer(keys_pressed)
