@@ -19,8 +19,5 @@ class Entity:
   def get_distance_to(self, entity):
     return hypot(self.x - entity.x, self.y - entity.y)
 
-  def get_center_coordinate(self):
-    return self.x - self.width/2, self.y - self.height/2
-
   def draw_collider(self, screen: pygame.Surface):
     pygame.draw.rect(screen, "red", self.collider)

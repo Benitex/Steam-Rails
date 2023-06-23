@@ -4,6 +4,7 @@ from scripts.player.player_controls import PlayerControls
 from scripts.player.weapon.weapon import Weapon
 from scripts.items.item import Item
 from scripts.map.objects.chest import Chest
+from data.directions import Directions
 
 class Player(Character):
   def __init__(self, controls: PlayerControls, spritesheet: pygame.Surface, x: float, y: float, items = None) -> None:
@@ -12,6 +13,7 @@ class Player(Character):
       y = y,
       width = 32,
       height = 32,
+      direction = Directions.UP,
       spritesheet = spritesheet,
       health = self.max_health,
       speed = 0.15,
@@ -51,17 +53,20 @@ class Player(Character):
     item.apply_effect(self)
     self.items.append(item)
 
-  def take_damage(self, damage: int):
+  def take_damage(self, damage: int, direction: Directions, knockback_intensity: float):
     if self.is_invincible(): return
 
-    super().take_damage(damage)
+    super().take_damage(damage, direction, knockback_intensity)
     self.iframes_timer = 0
 
   def update(self, dt: int, keys_pressed, keys_just_pressed, room):
     if self.iframes_timer < self.iframes:
       self.iframes_timer += dt
 
-    if self.is_attacking():
+    if self.is_taking_knockback():
+      self.take_knockback(dt)
+
+    elif self.is_attacking():
       self.__attack(dt = dt, enemies = room.enemies)
 
     elif self.is_dodging():
@@ -80,7 +85,7 @@ class Player(Character):
       self.__move(dt, keys_pressed)
 
     self.collider = pygame.Rect(
-      (self.x, self.y + self.height),
+      (self.x, self.y + 32),
       (self.width, self.height),
     )
     self.__collide(keys_just_pressed, room)
@@ -110,13 +115,17 @@ class Player(Character):
     normalizer = self.__movement_normalizer(keys_pressed)
 
     if keys_pressed[self.controls.UP]:
+      self.direction = Directions.UP
       self.y -= self.speed / normalizer * dt
     elif keys_pressed[self.controls.DOWN]:
+      self.direction = Directions.DOWN
       self.y += self.speed / normalizer * dt
 
     if keys_pressed[self.controls.RIGHT]:
+      self.direction = Directions.RIGHT
       self.x += self.speed / normalizer * dt
     elif keys_pressed[self.controls.LEFT]:
+      self.direction = Directions.LEFT
       self.x -= self.speed / normalizer * dt
 
   def __movement_normalizer(self, keys_pressed) -> float:
