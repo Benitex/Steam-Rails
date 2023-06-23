@@ -1,18 +1,20 @@
 import pygame
 from scripts.enemies.enemy_type import EnemyType
-from scripts.entity import Entity
+from scripts.character import Character
 from scripts.player.player import Player
 
-class Enemy(Entity):
+class Enemy(Character):
   def __init__(self, enemy_type: EnemyType, x: float, y: float) -> None:
     super().__init__(
       x = x,
       y = y,
       width = enemy_type.width,
       height = enemy_type.height,
+      spritesheet = enemy_type.spritesheet,
+      health = enemy_type.health,
+      speed = enemy_type.speed,
     )
     self.type = enemy_type
-    self.health = enemy_type.health
 
   chosen_player = None
 
@@ -24,6 +26,10 @@ class Enemy(Entity):
       (self.x, self.y),
       (self.type.width, self.type.height),
     )
+
+    for player in players:
+      if self.is_colliding_with(player):
+        self.__attack(player)
 
   def draw(self, screen: pygame.Surface):
     screen.blit(
@@ -63,11 +69,12 @@ class Enemy(Entity):
     return 1
 
   def __choose_player(self, players: list[Player]):
-    self.chosen_player = players[0]
-    if len(players) > 1:
+    self.chosen_player = None
+    if len(players) > 0:
+      self.chosen_player = players[0]
       for player in players[1:]:
         if self.get_distance_to(player) < self.get_distance_to(self.chosen_player):
           self.chosen_player = player
 
   def __attack(self, player: Player):
-    pass
+    player.take_damage(self.type.damage)

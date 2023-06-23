@@ -1,37 +1,37 @@
 import pygame
-from scripts.entity import Entity
+from scripts.character import Character
 from scripts.player.player_controls import PlayerControls
 from scripts.player.weapon.weapon import Weapon
 from scripts.items.item import Item
 from scripts.map.objects.chest import Chest
 
-class Player(Entity):
+class Player(Character):
   def __init__(self, controls: PlayerControls, spritesheet: pygame.Surface, x: float, y: float, items = None) -> None:
     super().__init__(
       x = x,
       y = y,
       width = 32,
       height = 32,
+      spritesheet = spritesheet,
+      health = self.max_health,
+      speed = 0.15,
     )
     self.controls = controls
-    self.spritesheet = spritesheet
 
     self.items = items or []
 
   max_health = 5
-  health = 5
-  speed = 0.15
+  iframes = 300
   weapon = None
 
   dodge_speed = 0.3
   dodge_duration = 200
   dodge_timer = dodge_duration
   attack_timer = 0
-
-  def is_dead(self) -> bool: return self.health <= 0
+  iframes_timer = iframes
 
   def is_invincible(self) -> bool:
-    return self.is_dodging() # TODO adicionar iframes após levar dano
+    return self.is_dodging() or self.iframes_timer < self.iframes
 
   def is_attacking(self) -> bool:
     if type(self.weapon) != Weapon: return False
@@ -51,7 +51,16 @@ class Player(Entity):
     item.apply_effect(self)
     self.items.append(item)
 
+  def take_damage(self, damage: int):
+    if self.is_invincible(): return
+
+    super().take_damage(damage)
+    self.iframes_timer = 0
+
   def update(self, dt: int, keys_pressed, keys_just_pressed, room):
+    if self.iframes_timer < self.iframes:
+      self.iframes_timer += dt
+
     if self.is_attacking():
       self.__attack(dt = dt, enemies = room.enemies)
 
