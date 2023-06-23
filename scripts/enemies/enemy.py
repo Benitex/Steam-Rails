@@ -22,24 +22,29 @@ class Enemy(Character):
   chosen_player = None
 
   def update(self, dt: int, players: list[Player]):
+    super().update(dt)
+
     if self.is_taking_knockback():
       self.take_knockback(dt)
+      self.collider = pygame.Rect(
+        (self.x, self.y),
+        (self.type.width, self.type.height),
+      )
 
-    if self.attack_timer > 0:
+    elif self.attack_timer > 0:
       self.attack_timer -= dt
-      return
 
-    self.__choose_player(players)
-    self.__move(dt)
+    else:
+      self.__choose_player(players)
+      self.__move(dt)
 
-    self.collider = pygame.Rect(
-      (self.x, self.y),
-      (self.type.width, self.type.height),
-    )
-
-    for player in players:
-      if self.is_colliding_with(player):
-        self.__attack(player)
+      self.collider = pygame.Rect(
+        (self.x, self.y),
+        (self.type.width, self.type.height),
+      )
+      for player in players:
+        if self.is_colliding_with(player):
+          self.__attack(player)
 
   def draw(self, screen: pygame.Surface):
     screen.blit(

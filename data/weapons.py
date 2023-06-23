@@ -6,6 +6,7 @@ WEAPON_EXAMPLE = MeleeWeapon(
   attack_animation = image.load("placeholder/graphics/item.png"),
   damage = 1,
   attack_duration = 200,
+  knockback_intensity = 0.1,
   hitbox_width = 64,
   hitbox_height = 32,
 )
@@ -16,6 +17,7 @@ WEAPON_EXAMPLE_2 = MeleeWeapon(
   attack_animation = image.load("placeholder/graphics/gun.png"),
   damage = 1,
   attack_duration = 200,
+  knockback_intensity = 0.01,
   hitbox_width = 64,
   hitbox_height = 32,
 )

@@ -23,14 +23,12 @@ class Player(Character):
     self.items = items or []
 
   max_health = 5
-  iframes = 300
   weapon = None
 
   dodge_speed = 0.3
   dodge_duration = 200
   dodge_timer = dodge_duration
   attack_timer = 0
-  iframes_timer = iframes
 
   def is_invincible(self) -> bool:
     return self.is_dodging() or self.iframes_timer < self.iframes
@@ -57,11 +55,9 @@ class Player(Character):
     if self.is_invincible(): return
 
     super().take_damage(damage, direction, knockback_intensity)
-    self.iframes_timer = 0
 
   def update(self, dt: int, keys_pressed, keys_just_pressed, room):
-    if self.iframes_timer < self.iframes:
-      self.iframes_timer += dt
+    super().update(dt)
 
     if self.is_taking_knockback():
       self.take_knockback(dt)
@@ -164,4 +160,5 @@ class Player(Character):
       # TODO adicionar posicionamento por direção do jogador
       x = self.x,
       y = self.y,
+      direction = self.direction,
     )
