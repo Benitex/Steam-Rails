@@ -59,6 +59,8 @@ class Player(Character):
   def update(self, dt: int, keys_pressed, keys_just_pressed, room):
     super().update(dt)
 
+    x_before_movement, y_before_movement = self.x, self.y
+
     if self.is_taking_knockback():
       self.take_knockback(dt)
 
@@ -84,7 +86,7 @@ class Player(Character):
       (self.x, self.y + 32),
       (self.width, self.height),
     )
-    self.__collide(keys_just_pressed, room)
+    self.__collide(keys_just_pressed, room, x_before_movement, y_before_movement)
 
   def draw(self, screen: pygame.Surface):
     screen.blit(
@@ -95,7 +97,7 @@ class Player(Character):
     if type(self.weapon) == Weapon and self.is_attacking():
       self.weapon.draw(screen)
 
-  def __collide(self, keys_just_pressed, room):
+  def __collide(self, keys_just_pressed, room, x_before_movement: float, y_before_movement: float):
     for entity in room.get_entities():
       if self.is_colliding_with(entity):
         if type(entity) == Item:
@@ -103,9 +105,13 @@ class Player(Character):
             self.pick_item(entity)
             room.items.remove(entity)
 
-        if type(entity) == Chest:
-          if entity.is_open and len(keys_just_pressed) > 0 and keys_just_pressed[self.controls.ACTION]:
-            self.change_weapon(entity.change_weapons(self.weapon))
+        elif type(entity) == Chest:
+            if entity.is_open and len(keys_just_pressed) > 0 and keys_just_pressed[self.controls.ACTION]:
+              self.change_weapon(entity.change_weapons(self.weapon))
+
+        else: # entities que "empurram" o jogador
+          self.x = x_before_movement
+          self.y = y_before_movement
 
   def __move(self, dt: int, keys_pressed):
     normalizer = self.__movement_normalizer(keys_pressed)

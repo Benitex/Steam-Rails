@@ -6,3 +6,6 @@ class Tileset:
     self.tile_size = tile_size
     self.tiles_in_a_row = tiles_in_a_row
     self.collisionable_tiles = collisionable_tiles
+
+  def is_tile_collisionable(self, tile_number: int) -> bool:
+    return tile_number in self.collisionable_tiles

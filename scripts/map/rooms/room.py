@@ -12,10 +12,14 @@ class Room:
     self.tile_layers = [
       self.__convert_CSV_to_map_layer(file) for file in tile_layers_files
     ]
+    self.walls = self.__get_colliders_from_tileset()
     self.enemies = enemies or []
     self.items = items or []
     self.chests = chests or []
-    self.door = Door()
+    self.door = Door(
+      sprite = self.DOOR_SPRITE,
+      x = 512, y = 160,
+    )
 
     # TODO gerar obstáculos e modificações na sala
 
@@ -40,12 +44,25 @@ class Room:
     image = pygame.image.load("placeholder/graphics/tileset.png"), # TODO adicionar o tileset real
     tile_size = 32,
     tiles_in_a_row = 10,
-    collisionable_tiles = [],
+    collisionable_tiles = [
+      # TODO atualizar com o tileset real
+      0, 1, 2, 3, 4,
+      10, 20, 30,
+      15, 25, 35,
+      40, 41, 42, 43, 44, 45, 47,
+      54, 55, 57,
+    ],
   )
   CHEST_SPRITE = TILESET.image.subsurface(
     pygame.Rect(
-      (0, 8 * TILESET.tile_size),
+      (3 * TILESET.tile_size, 8 * TILESET.tile_size),
       (TILESET.tile_size, TILESET.tile_size),
+    )
+  )
+  DOOR_SPRITE = TILESET.image.subsurface(
+    pygame.Rect(
+      (8 * TILESET.tile_size, 4 * TILESET.tile_size),
+      (TILESET.tile_size, TILESET.tile_size * 2),
     )
   )
   MAP_WIDTH = 19 # quantidade de tiles em uma linha do mapa
@@ -55,7 +72,7 @@ class Room:
     return len(self.enemies) == 0
 
   def get_entities(self) -> list[Entity]:
-    return self.enemies + self.items + self.chests
+    return self.items + self.chests + self.walls + [self.door]
 
   def update(self):
     if self.is_complete():
@@ -84,6 +101,7 @@ class Room:
 
     for chest in self.chests:
       chest.draw(screen)
+    self.door.draw(screen)
 
   def __convert_CSV_to_map_layer(self, file) -> list[int]:
     layer = []
@@ -92,6 +110,22 @@ class Room:
         layer.append(int(tile))
 
     return layer
+
+  def __get_colliders_from_tileset(self) -> list[Entity]:
+    colliders = []
+
+    for layer in self.tile_layers:
+      for tile_number, tile in enumerate(layer):
+        if self.TILESET.is_tile_collisionable(tile):
+          tile = Entity(
+            x = (tile_number % self.MAP_WIDTH) * self.TILESET.tile_size,
+            y = (tile_number // self.MAP_WIDTH) * self.TILESET.tile_size,
+            width = self.TILESET.tile_size,
+            height = self.TILESET.tile_size,
+          )
+          if tile not in colliders: colliders.append(tile)
+
+    return colliders
 
   def move_entity_to_tile(self, entity: Entity, x: int, y: int):
     entity.x = x * self.TILESET.tile_size
