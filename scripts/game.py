@@ -4,12 +4,14 @@ from scripts.map.rooms.room import Room
 from scripts.map.rooms.initial_room import InitialRoom
 from scripts.player.player import Player
 from scripts.enemies.enemy import Enemy
+from scripts.player.player_ui_bar import PlayerUIBar
 
 class Game: # TODO substituir pelo nome do jogo
   current_room = InitialRoom()
+  room_number = 0
   players = []
 
-  def draw(self, screen: pygame.Surface):
+  def draw(self, screen: pygame.Surface, font: pygame.font.Font):
     screen.fill("black")
 
     self.current_room.draw(screen)
@@ -23,9 +25,31 @@ class Game: # TODO substituir pelo nome do jogo
     for player in self.players:
       player.draw(screen)
 
+    # UI
+    for player_number, player in enumerate(self.players):
+      PlayerUIBar(
+        player = player,
+        x = 16 + 180 * player_number,
+        y = 16,
+      ).draw(screen)
+
+    screen.blit(
+      source = font.render(f"Room number: {self.room_number}", False, "white"),
+      dest = (10, 360),
+    )
+    if len(self.players) == 0 and type(self.current_room) != InitialRoom:
+      screen.blit(
+        source = font.render("Press space to restart.", False, "white"),
+        dest = (180, 320),
+      )
+
     pygame.display.update()
 
   def update(self, dt: int, keys_just_pressed):
+    if len(self.players) == 0 and len(keys_just_pressed) > 0 and (keys_just_pressed[pygame.K_SPACE] or keys_just_pressed[pygame.K_RETURN]):
+      self.current_room = InitialRoom()
+      self.room_number = 0
+
     keys_pressed = pygame.key.get_pressed()
 
     self.remove_dead(self.players, self.current_room.enemies)
@@ -66,6 +90,7 @@ class Game: # TODO substituir pelo nome do jogo
       number_of_players = len(self.players),
       number_of_enemies = number_of_enemies,
     )
+    self.room_number += 1
 
   def remove_dead(self, players: list[Player], enemies: list[Enemy]):
     dead_players = []

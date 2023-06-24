@@ -6,6 +6,7 @@ pygame.init()
 game = Game()
 screen = pygame.display.set_mode((608, 384))
 clock = pygame.time.Clock()
+font = pygame.font.Font("placeholder/graphics/font.ttf", 12) # TODO adicionar fonte real
 
 while True:
   keys_just_pressed = []
@@ -20,4 +21,4 @@ while True:
   dt = clock.get_time()
 
   game.update(dt, keys_just_pressed)
-  game.draw(screen)
+  game.draw(screen, font)

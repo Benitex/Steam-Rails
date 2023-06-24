@@ -12,9 +12,10 @@ ENEMY_EXAMPLE = EnemyType(
   health = 3,
   speed = 0.05,
   drops = [
-    [ITEM_EXAMPLE, 10],
+    [HEALTH_EXTENDER_EXAMPLE, 10],
   ],
 )
+
 ENEMY_EXAMPLE_2 = EnemyType(
   spritesheet = image.load("placeholder/graphics/enemy.png"),
   width = 32,
