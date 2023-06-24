@@ -8,7 +8,7 @@ from data.enemies import enemy_types_list
 from data.weapons import weapons
 
 class Room:
-  def __init__(self, tile_layers_files: list, number_of_players: int, number_of_enemies = 3, enemies = None, items = None, chests = None) -> None:
+  def __init__(self, tile_layers_files: list, number_of_players: int, generate_enemies = True, enemies = None, items = None, chests = None) -> None:
     self.tile_layers = [
       self.__convert_CSV_to_map_layer(file) for file in tile_layers_files
     ]
@@ -26,15 +26,15 @@ class Room:
             sprite = self.CHEST_SPRITE,
             weapon_type = random.choice(weapons),
             x = 224 + player_number * 64, # TODO atualizar com a posição no mapa final
-            y = 128,
+            y = 96,
           ))
 
-    if len(self.enemies) == 0:
-      for i in range(number_of_enemies):
-        self.enemies.append(Enemy(
-          enemy_type = random.choice(enemy_types_list),
-          x = 150, y = 150, # TODO gerar o inimigo em um lugar aleatório
-        ))
+    if generate_enemies and len(self.enemies) == 0:
+      number_of_enemies = 0
+      for player in range(number_of_players):
+        number_of_enemies += random.randint(3, 5)
+
+      self.enemies += self.generate_enemies(number_of_enemies)
 
   TILESET = Tileset(
     image = pygame.image.load("placeholder/graphics/tileset.png"), # TODO adicionar o tileset real
@@ -50,6 +50,12 @@ class Room:
   )
   MAP_WIDTH = 19 # quantidade de tiles em uma linha do mapa
   CHEST_SPAWN_RATE = 25
+
+  def is_complete(self) -> bool:
+    return len(self.enemies) == 0
+
+  def get_entities(self) -> list[Entity]:
+    return self.enemies + self.items + self.chests
 
   def update(self):
     if self.is_complete():
@@ -87,12 +93,16 @@ class Room:
 
     return layer
 
-  def is_complete(self) -> bool:
-    return len(self.enemies) == 0
-
-  def get_entities(self) -> list[Entity]:
-    return self.enemies + self.items + self.chests
-
   def move_entity_to_tile(self, entity: Entity, x: int, y: int):
     entity.x = x * self.TILESET.tile_size
     entity.y = y * self.TILESET.tile_size
+
+  def generate_enemies(self, number_of_enemies: int) -> list[Enemy]:
+    enemies = []
+    for i in range(number_of_enemies):
+      enemies.append(Enemy(
+        enemy_type = random.choice(enemy_types_list),
+        x = random.randint(5 * self.TILESET.tile_size, 15 * self.TILESET.tile_size),
+        y = random.randint(4 * self.TILESET.tile_size, 8 * self.TILESET.tile_size),
+      ))
+    return enemies

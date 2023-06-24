@@ -13,21 +13,21 @@ class InitialRoom(Room):
         open("placeholder/data/initial_room/initial_room_2.csv"),
       ],
       number_of_players = 0,
-      number_of_enemies = 0,
+      generate_enemies = False,
       chests = [
         Chest(
           weapon_type = random.choice(melee_weapons),
           is_infinite = True,
           is_open = True,
           sprite = self.CHEST_SPRITE,
-          x = 224, y = 128,
+          x = 224, y = 96,
         ),
         Chest(
           weapon_type = random.choice(ranged_weapons),
           is_infinite = True,
           is_open = True,
           sprite = self.CHEST_SPRITE,
-          x = 352, y = 128,
+          x = 352, y = 96,
         ),
       ],
     )

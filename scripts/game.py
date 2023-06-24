@@ -75,12 +75,8 @@ class Game: # TODO substituir pelo nome do jogo
 
   def move_to_next_room(self):
     for player_number, player in enumerate(self.players):
-      player.x = 128
+      player.x = 96
       player.y = 128 + player_number * 32
-
-    number_of_enemies = 0
-    for player in self.players:
-      number_of_enemies += randint(1, 3)
 
     self.current_room = Room(
       tile_layers_files = [
@@ -88,7 +84,6 @@ class Game: # TODO substituir pelo nome do jogo
         open("placeholder/data/initial_room/initial_room_2.csv"),
       ],
       number_of_players = len(self.players),
-      number_of_enemies = number_of_enemies,
     )
     self.room_number += 1
 

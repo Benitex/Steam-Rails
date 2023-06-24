@@ -4,7 +4,7 @@ from scripts.player.player import Player
 class Door(Entity):
   def __init__(self, is_open = False) -> None:
     super().__init__(
-      x = 480,
+      x = 512,
       y = 160,
       width = 32,
       height = 64,
