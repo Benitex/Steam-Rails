@@ -28,10 +28,17 @@ class Weapon:
     if type(self.type) != MeleeWeapon:
       raise Exception("This instance of Weapon cannot swing. Only a WeaponType of MeleeWeapon can swing.")
 
-    hitbox = pygame.Rect(
-      (self.x, self.y),
-      (self.type.hitbox_width, self.type.hitbox_height),
-    )
+    # Inversão de width e height se estiver olhando para os lados
+    width = self.type.hitbox_width if (direction == Directions.UP or direction == Directions.DOWN) else self.type.hitbox_height
+    height = self.type.hitbox_height if (direction == Directions.UP or direction == Directions.DOWN) else self.type.hitbox_width
+
+    # Divisão da colisão da lâmina igualmente para os dois lados
+    if direction == Directions.UP or direction == Directions.DOWN:
+      self.x -= width / 2 - 16
+    elif direction == Directions.LEFT or direction == Directions.RIGHT:
+      self.y -= height / 2 - 16
+
+    hitbox = pygame.Rect(self.x, self.y, width, height)
 
     for enemy in enemies:
       if hitbox.colliderect(enemy.collider):

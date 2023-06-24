@@ -155,10 +155,16 @@ class Player(Character):
       raise Exception("No weapon equiped in instance of Player")
 
     self.attack_timer += dt
+    weapon_x, weapon_y = self.collider.x, self.collider.y
+    match self.direction:
+      case Directions.UP: weapon_y -= self.height
+      case Directions.DOWN: weapon_y += self.height
+      case Directions.LEFT: weapon_x -= self.width
+      case Directions.RIGHT: weapon_x += self.width
+
     self.weapon.update(
       enemies = enemies,
-      # TODO adicionar posicionamento por direção do jogador
-      x = self.x,
-      y = self.y,
+      x = weapon_x,
+      y = weapon_y,
       direction = self.direction,
     )
