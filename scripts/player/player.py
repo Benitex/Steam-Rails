@@ -104,7 +104,7 @@ class Player(Character):
             room.items.remove(entity)
 
         if type(entity) == Chest:
-          if len(keys_just_pressed) > 0 and keys_just_pressed[self.controls.ACTION]:
+          if entity.is_open and len(keys_just_pressed) > 0 and keys_just_pressed[self.controls.ACTION]:
             self.change_weapon(entity.change_weapons(self.weapon))
 
   def __move(self, dt: int, keys_pressed):

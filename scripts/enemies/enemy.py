@@ -1,7 +1,8 @@
-import pygame
+import pygame, random
 from scripts.enemies.enemy_type import EnemyType
 from scripts.character import Character
 from scripts.player.player import Player
+from scripts.items.item import Item
 from data.directions import Directions
 
 class Enemy(Character):
@@ -52,6 +53,18 @@ class Enemy(Character):
       dest = (self.x, self.y),
       # area = (), TODO adicionar animações
     )
+
+  def drop_items(self) -> list[Item]:
+    drops = []
+
+    for drop in self.type.drops:
+      if random.randint(1, 100) <= drop[1]:
+        drops.append(Item(
+          item_type = drop[0],
+          x = self.x, y = self.y,
+        ))
+
+    return drops
 
   def __move(self, dt: int):
     if type(self.chosen_player) != Player: return

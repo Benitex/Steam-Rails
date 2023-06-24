@@ -18,12 +18,14 @@ class InitialRoom(Room):
         Chest(
           weapon_type = random.choice(melee_weapons),
           is_infinite = True,
+          is_open = True,
           sprite = self.CHEST_SPRITE,
           x = 224, y = 128,
         ),
         Chest(
           weapon_type = random.choice(ranged_weapons),
           is_infinite = True,
+          is_open = True,
           sprite = self.CHEST_SPRITE,
           x = 352, y = 128,
         ),
@@ -59,10 +61,10 @@ class InitialRoom(Room):
 
   def update(self, players: list[Player], keys_pressed):
     self.__add_players(players, keys_pressed)
-    if self.__should_open_the_door(players):
+    if self.is_complete(players):
       self.door.is_open = True
 
-  def __should_open_the_door(self, players: list[Player]) -> bool:
+  def is_complete(self, players: list[Player]) -> bool:
     if len(players) == 0: return False
     for player in players:
       if player.weapon == None:

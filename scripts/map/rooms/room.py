@@ -1,5 +1,4 @@
-import pygame
-import random
+import pygame, random
 from scripts.map.tileset import Tileset
 from scripts.map.objects.door import Door
 from scripts.map.objects.chest import Chest
@@ -22,8 +21,13 @@ class Room:
 
     if len(self.chests) == 0:
       if random.randint(1, 100) <= self.CHEST_SPAWN_RATE:
-        for i in range(number_of_players):
-          pass # self.chests.append(Chest()) TODO adicionar os baús com armas aleatórias
+        for player_number in range(number_of_players):
+          self.chests.append(Chest(
+            sprite = self.CHEST_SPRITE,
+            weapon_type = random.choice(weapons),
+            x = 224 + player_number * 64, # TODO atualizar com a posição no mapa final
+            y = 128,
+          ))
 
     if len(self.enemies) == 0:
       for i in range(number_of_enemies):
@@ -48,8 +52,10 @@ class Room:
   CHEST_SPAWN_RATE = 25
 
   def update(self):
-    if self.__should_open_the_door():
+    if self.is_complete():
       self.door.is_open = True
+      for chest in self.chests:
+        chest.is_open = True
 
   def draw(self, screen: pygame.Surface):
     for layer in self.tile_layers:
@@ -81,7 +87,7 @@ class Room:
 
     return layer
 
-  def __should_open_the_door(self) -> bool:
+  def is_complete(self) -> bool:
     return len(self.enemies) == 0
 
   def get_entities(self) -> list[Entity]:

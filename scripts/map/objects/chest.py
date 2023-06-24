@@ -4,7 +4,7 @@ from scripts.player.weapon.weapon import Weapon
 from scripts.player.weapon.weapon_type import WeaponType
 
 class Chest(Entity):
-  def __init__(self, sprite: Surface, weapon_type: WeaponType, x: float, y: float, is_infinite = False) -> None:
+  def __init__(self, sprite: Surface, weapon_type: WeaponType, x: float, y: float, is_open = False, is_infinite = False) -> None:
     super().__init__(
       x = x,
       y = y,
@@ -13,6 +13,7 @@ class Chest(Entity):
     )
     self.weapon_type = weapon_type
     self.sprite = sprite
+    self.is_open = is_open
     self.is_infinite = is_infinite
 
   def draw(self, screen: Surface):
@@ -20,10 +21,11 @@ class Chest(Entity):
       source = self.sprite,
       dest = (self.x, self.y),
     )
-    screen.blit(
-      source = self.weapon_type.icon,
-      dest = (self.x, self.y - 32),
-    )
+    if self.is_open:
+      screen.blit(
+        source = self.weapon_type.icon,
+        dest = (self.x, self.y - 32),
+      )
 
   def change_weapons(self, player_weapon = None) -> Weapon:
     weapon = Weapon(self.weapon_type)
