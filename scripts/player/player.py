@@ -23,6 +23,7 @@ class Player(Character):
     self.items = items or []
 
   max_health = 5
+  attack = 1
   weapon = None
 
   dodge_speed = 0.3
@@ -161,16 +162,10 @@ class Player(Character):
       raise Exception("No weapon equiped in instance of Player")
 
     self.attack_timer += dt
-    weapon_x, weapon_y = self.collider.x, self.collider.y
-    match self.direction:
-      case Directions.UP: weapon_y -= self.height
-      case Directions.DOWN: weapon_y += self.height
-      case Directions.LEFT: weapon_x -= self.width
-      case Directions.RIGHT: weapon_x += self.width
-
     self.weapon.update(
+      player_attack = self.attack,
       enemies = enemies,
-      x = weapon_x,
-      y = weapon_y,
+      x = self.collider.x,
+      y = self.collider.y,
       direction = self.direction,
     )

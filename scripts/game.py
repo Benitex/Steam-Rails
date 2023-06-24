@@ -1,5 +1,4 @@
 import pygame
-from random import randint
 from scripts.map.rooms.room import Room
 from scripts.map.rooms.initial_room import InitialRoom
 from scripts.player.player import Player
@@ -84,6 +83,7 @@ class Game: # TODO substituir pelo nome do jogo
         open("placeholder/data/initial_room/initial_room_2.csv"),
       ],
       number_of_players = len(self.players),
+      enemy_difficulty_multiplier = 1 + self.room_number // 10,
     )
     self.room_number += 1
 
@@ -98,7 +98,7 @@ class Game: # TODO substituir pelo nome do jogo
     for enemy in enemies:
       if enemy.is_dead():
         dead_enemies.append(enemy)
-        self.current_room.items += enemy.drop_items()
+        self.current_room.items += enemy.drop_items(number_of_players = len(players))
 
     for dead_enemy in dead_enemies:
       enemies.remove(dead_enemy)

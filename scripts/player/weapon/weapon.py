@@ -17,20 +17,27 @@ class Weapon:
       # area = , TODO adicionar animações
     )
 
-  def update(self, enemies: list, x: float, y: float, direction: Directions):
+  def update(self, player_attack: int, enemies: list, x: float, y: float, direction: Directions):
     self.x = x
     self.y = y
 
     if type(self.type) == MeleeWeapon:
-      self.__swing(direction, enemies)
+      self.__swing(player_attack, direction, enemies)
 
-  def __swing(self, direction: Directions, enemies: list):
+  def __swing(self, player_attack: int, direction: Directions, enemies: list):
     if type(self.type) != MeleeWeapon:
       raise Exception("This instance of Weapon cannot swing. Only a WeaponType of MeleeWeapon can swing.")
 
     # Inversão de width e height se estiver olhando para os lados
     width = self.type.hitbox_width if (direction == Directions.UP or direction == Directions.DOWN) else self.type.hitbox_height
     height = self.type.hitbox_height if (direction == Directions.UP or direction == Directions.DOWN) else self.type.hitbox_width
+
+    # Posicionamento da arma
+    match direction:
+      case Directions.UP: self.y -= height
+      case Directions.DOWN: self.y += 32
+      case Directions.LEFT: self.x -= width
+      case Directions.RIGHT: self.x += 32
 
     # Divisão da colisão da lâmina igualmente para os dois lados
     if direction == Directions.UP or direction == Directions.DOWN:
@@ -43,7 +50,7 @@ class Weapon:
     for enemy in enemies:
       if hitbox.colliderect(enemy.collider):
         enemy.take_damage(
-          damage = self.type.damage,
+          damage = self.type.damage * player_attack,
           direction = direction,
           knockback_intensity = self.type.knockback_intensity,
         )

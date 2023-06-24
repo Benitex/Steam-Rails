@@ -6,7 +6,7 @@ from scripts.items.item import Item
 from data.directions import Directions
 
 class Enemy(Character):
-  def __init__(self, enemy_type: EnemyType, x: float, y: float) -> None:
+  def __init__(self, enemy_type: EnemyType, x: float, y: float, difficulty_multiplier = 1) -> None:
     super().__init__(
       x = x,
       y = y,
@@ -18,6 +18,8 @@ class Enemy(Character):
       speed = enemy_type.speed,
     )
     self.type = enemy_type
+    self.difficulty_multiplier = difficulty_multiplier
+    self.health *= difficulty_multiplier
     self.attack_timer = self.type.attack_cooldown
 
   chosen_player = None
@@ -54,11 +56,11 @@ class Enemy(Character):
       # area = (), TODO adicionar animações
     )
 
-  def drop_items(self) -> list[Item]:
+  def drop_items(self, number_of_players: int) -> list[Item]:
     drops = []
 
     for drop in self.type.drops:
-      if random.randint(1, 100) <= drop[1]:
+      if random.randint(1, 100) <= drop[1] * number_of_players:
         drops.append(Item(
           item_type = drop[0],
           x = self.x, y = self.y,
@@ -110,7 +112,7 @@ class Enemy(Character):
 
   def __attack(self, player: Player):
     player.take_damage(
-      damage = self.type.damage,
+      damage = self.type.damage * self.difficulty_multiplier,
       direction = self.direction,
       knockback_intensity = 0.2,
     )

@@ -8,7 +8,7 @@ from data.enemies import enemy_types_list
 from data.weapons import weapons
 
 class Room:
-  def __init__(self, tile_layers_files: list, number_of_players: int, generate_enemies = True, enemies = None, items = None, chests = None) -> None:
+  def __init__(self, tile_layers_files: list, number_of_players: int, generate_enemies = True, enemy_difficulty_multiplier = 1, enemies = None, items = None, chests = None) -> None:
     self.tile_layers = [
       self.__convert_CSV_to_map_layer(file) for file in tile_layers_files
     ]
@@ -38,7 +38,7 @@ class Room:
       for player in range(number_of_players):
         number_of_enemies += random.randint(3, 5)
 
-      self.enemies += self.generate_enemies(number_of_enemies)
+      self.enemies += self.generate_enemies(number_of_enemies, enemy_difficulty_multiplier)
 
   TILESET = Tileset(
     image = pygame.image.load("placeholder/graphics/tileset.png"), # TODO adicionar o tileset real
@@ -131,11 +131,12 @@ class Room:
     entity.x = x * self.TILESET.tile_size
     entity.y = y * self.TILESET.tile_size
 
-  def generate_enemies(self, number_of_enemies: int) -> list[Enemy]:
+  def generate_enemies(self, number_of_enemies: int, difficulty_multiplier = 1) -> list[Enemy]:
     enemies = []
     for i in range(number_of_enemies):
       enemies.append(Enemy(
         enemy_type = random.choice(enemy_types_list),
+        difficulty_multiplier = difficulty_multiplier,
         x = random.randint(5 * self.TILESET.tile_size, 15 * self.TILESET.tile_size),
         y = random.randint(4 * self.TILESET.tile_size, 8 * self.TILESET.tile_size),
       ))
