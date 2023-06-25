@@ -9,6 +9,7 @@ class Weapon:
     self.type = type
 
   x, y = 0, 0
+  direction = Directions.UP
 
   def draw(self, screen: pygame.Surface):
     screen.blit(
@@ -18,4 +19,9 @@ class Weapon:
     )
 
   @abstractmethod
-  def update(self, player_attack: int, entities: list[Entity], x: float, y: float, direction: Directions): pass
+  def update(self, player_attack: int, entities: list[Entity]): pass
+
+  def start_attack(self, x: float, y: float, direction: Directions):
+    self.x = x
+    self.y = y
+    self.direction = direction

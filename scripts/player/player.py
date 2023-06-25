@@ -3,6 +3,7 @@ from scripts.character import Character
 from scripts.player.player_controls import PlayerControls
 from scripts.player.weapon.weapon import Weapon
 from scripts.player.weapon.melee_weapon import MeleeWeapon
+from scripts.player.weapon.ranged_weapon import RangedWeapon
 from scripts.entity import Entity
 from scripts.enemies.enemy import Enemy
 from scripts.items.item import Item
@@ -64,6 +65,9 @@ class Player(Character):
     super().update(dt)
 
     x_before_movement, y_before_movement = self.x, self.y
+    if type(self.weapon) == RangedWeapon:
+      for bullet in self.weapon.bullets:
+        bullet.update(dt)
 
     if self.is_taking_knockback():
       self.take_knockback(dt)
@@ -77,11 +81,16 @@ class Player(Character):
     elif len(keys_just_pressed) > 0:
       if keys_just_pressed[self.controls.DODGE]:
         self.dodge_timer = 0
-      elif keys_just_pressed[self.controls.ATTACK]:
-        if isinstance(self.weapon, Weapon):
-          self.attack_timer = 0
-          self.__attack(dt, entities)
-        # else: TODO avisar que nenhuma arma está equipada
+      elif keys_just_pressed[self.controls.ATTACK] and isinstance(self.weapon, Weapon):
+        self.attack_timer = 0
+
+        x, y = self.collider.x, self.collider.y
+        match self.direction:
+          case Directions.DOWN: y += self.height
+          case Directions.RIGHT: x += self.width
+
+        self.weapon.start_attack(x, y, self.direction)
+        self.__attack(dt, entities)
 
     else:
       self.__move(dt, keys_pressed)
@@ -102,6 +111,9 @@ class Player(Character):
     # Arma
     if type(self.weapon) == MeleeWeapon and self.is_attacking():
       self.weapon.draw(screen)
+    elif type(self.weapon) == RangedWeapon:
+      for bullet in self.weapon.bullets:
+        bullet.draw(screen)
 
   def __collide(self, entities: list[Entity], keys_just_pressed, x_before_movement: float, y_before_movement: float):
     for entity in entities:
@@ -166,15 +178,8 @@ class Player(Character):
     if not isinstance(self.weapon, Weapon):
       raise Exception("No weapon equiped in instance of Player")
 
-    x, y = self.collider.x, self.collider.y
-    match self.direction:
-      case Directions.DOWN: y += self.height
-      case Directions.RIGHT: x += self.width
-
     self.attack_timer += dt
     self.weapon.update(
       player_attack = self.attack,
       entities = entities,
-      x = x, y = y,
-      direction = self.direction,
     )
