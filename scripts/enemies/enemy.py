@@ -1,7 +1,6 @@
 import pygame, random
 from scripts.enemies.enemy_type import EnemyType
 from scripts.character import Character
-from scripts.player.player import Player
 from scripts.items.item import Item
 from data.directions import Directions
 
@@ -22,9 +21,9 @@ class Enemy(Character):
     self.health *= difficulty_multiplier
     self.attack_timer = self.type.attack_cooldown
 
-  chosen_player = None
+  target = None
 
-  def update(self, dt: int, players: list[Player]):
+  def update(self, dt: int, possible_targets: list[Character]):
     super().update(dt)
 
     if self.is_taking_knockback():
@@ -38,16 +37,16 @@ class Enemy(Character):
       self.attack_timer -= dt
 
     else:
-      self.__choose_player(players)
+      self.__choose_target(possible_targets)
       self.__move(dt)
 
       self.collider = pygame.Rect(
         (self.x, self.y),
         (self.type.width, self.type.height),
       )
-      for player in players:
-        if self.is_colliding_with(player):
-          self.__attack(player)
+      for target in possible_targets:
+        if self.is_colliding_with(target):
+          self.__attack(target)
 
   def draw(self, screen: pygame.Surface):
     screen.blit(
@@ -69,49 +68,49 @@ class Enemy(Character):
     return drops
 
   def __move(self, dt: int):
-    if type(self.chosen_player) != Player: return
+    if not isinstance(self.target, Character): return
 
     normalizer = self.__movement_normalizer()
 
     # FIXME corrigir direção do knockback
-    if self.y < self.chosen_player.collider.y:
+    if self.y < self.target.collider.y:
       self.direction = Directions.DOWN
       self.y += self.type.speed / normalizer * dt
-    elif self.y > self.chosen_player.collider.y:
+    elif self.y > self.target.collider.y:
       self.direction = Directions.UP
       self.y -= self.type.speed / normalizer * dt
 
-    if self.x < self.chosen_player.collider.x:
+    if self.x < self.target.collider.x:
       self.direction = Directions.RIGHT
       self.x += self.type.speed / normalizer * dt
-    elif self.x > self.chosen_player.collider.x:
+    elif self.x > self.target.collider.x:
       self.direction = Directions.LEFT
       self.x -= self.type.speed / normalizer * dt
 
   def __movement_normalizer(self) -> float:
-    if type(self.chosen_player) != Player: return 1
+    if not isinstance(self.target, Character): return 1
 
-    if self.y < self.chosen_player.y and self.x > self.chosen_player.x:
+    if self.y < self.target.y and self.x > self.target.x:
       return 1.4
-    if self.y < self.chosen_player.y and self.x < self.chosen_player.x:
+    if self.y < self.target.y and self.x < self.target.x:
       return 1.4
-    if self.y > self.chosen_player.y and self.x > self.chosen_player.x:
+    if self.y > self.target.y and self.x > self.target.x:
       return 1.4
-    if self.y > self.chosen_player.y and self.x < self.chosen_player.x:
+    if self.y > self.target.y and self.x < self.target.x:
       return 1.4
   
     return 1
 
-  def __choose_player(self, players: list[Player]):
-    self.chosen_player = None
-    if len(players) > 0:
-      self.chosen_player = players[0]
-      for player in players[1:]:
-        if self.get_distance_to(player) < self.get_distance_to(self.chosen_player):
-          self.chosen_player = player
+  def __choose_target(self, possible_targets: list[Character]):
+    self.target = None
+    if len(possible_targets) > 0:
+      self.target = possible_targets[0]
+      for target in possible_targets[1:]:
+        if self.get_distance_to(target) < self.get_distance_to(self.target):
+          self.target = target
 
-  def __attack(self, player: Player):
-    player.take_damage(
+  def __attack(self, target: Character):
+    target.take_damage(
       damage = self.type.damage * self.difficulty_multiplier,
       direction = self.direction,
       knockback_intensity = 0.2,
