@@ -70,8 +70,7 @@ class InitialRoom(Room):
 
   def update(self, players: list[Player], keys_pressed):
     self.__add_players(players, keys_pressed)
-    if self.is_complete(players):
-      self.door.is_open = True
+    self.door.is_open = self.is_complete(players)
 
   def is_complete(self, players: list[Player]) -> bool:
     if len(players) == 0: return False

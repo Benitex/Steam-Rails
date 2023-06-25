@@ -1,6 +1,7 @@
 from abc import abstractmethod
 import pygame
 from scripts.player.weapon.weapon_type import WeaponType
+from scripts.entity import Entity
 from data.directions import Directions
 
 class Weapon:
@@ -17,7 +18,4 @@ class Weapon:
     )
 
   @abstractmethod
-  def update(self, player_attack: int, enemies: list, x: float, y: float, direction: Directions): pass
-
-  @abstractmethod
-  def __attack(self, player_attack: int, direction: Directions, enemies: list): pass
+  def update(self, player_attack: int, entities: list[Entity], x: float, y: float, direction: Directions): pass

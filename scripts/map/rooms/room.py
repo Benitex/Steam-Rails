@@ -72,7 +72,7 @@ class Room:
     return len(self.enemies) == 0
 
   def get_entities(self) -> list[Entity]:
-    return self.items + self.chests + self.walls + [self.door]
+    return self.enemies + self.items + self.chests + self.walls + [self.door]
 
   def update(self):
     if self.is_complete():

@@ -3,6 +3,7 @@ from scripts.map.rooms.room import Room
 from scripts.map.rooms.initial_room import InitialRoom
 from scripts.player.player import Player
 from scripts.enemies.enemy import Enemy
+from scripts.items.item import Item
 from scripts.player.player_ui_bar import PlayerUIBar
 
 class Game: # TODO substituir pelo nome do jogo
@@ -51,17 +52,17 @@ class Game: # TODO substituir pelo nome do jogo
 
     keys_pressed = pygame.key.get_pressed()
 
-    self.remove_dead(self.players, self.current_room.enemies)
+    self.remove_dead(self.players, self.current_room.enemies, self.current_room.items)
 
     for enemy in self.current_room.enemies:
       enemy.update(dt, self.players)
 
     for player in self.players:
       player.update(
-        dt,
-        keys_pressed,
-        keys_just_pressed,
-        self.current_room,
+        dt = dt,
+        keys_pressed = keys_pressed,
+        keys_just_pressed = keys_just_pressed,
+        entities = self.current_room.get_entities(),
       )
 
     if type(self.current_room) == InitialRoom:
@@ -87,7 +88,7 @@ class Game: # TODO substituir pelo nome do jogo
     )
     self.room_number += 1
 
-  def remove_dead(self, players: list[Player], enemies: list[Enemy]):
+  def remove_dead(self, players: list[Player], enemies: list[Enemy], items: list[Item]):
     dead_players = []
     for player in players:
       if player.is_dead(): dead_players.append(player)
@@ -102,3 +103,10 @@ class Game: # TODO substituir pelo nome do jogo
 
     for dead_enemy in dead_enemies:
       enemies.remove(dead_enemy)
+
+    picked_up_items = []
+    for item in items:
+      if item.is_picked_up:
+        picked_up_items.append(item)
+    for item in picked_up_items:
+      items.remove(item)

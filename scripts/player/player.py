@@ -2,6 +2,9 @@ import pygame
 from scripts.character import Character
 from scripts.player.player_controls import PlayerControls
 from scripts.player.weapon.weapon import Weapon
+from scripts.player.weapon.melee_weapon import MeleeWeapon
+from scripts.entity import Entity
+from scripts.enemies.enemy import Enemy
 from scripts.items.item import Item
 from scripts.map.objects.chest import Chest
 from data.directions import Directions
@@ -57,7 +60,7 @@ class Player(Character):
 
     super().take_damage(damage, direction, knockback_intensity)
 
-  def update(self, dt: int, keys_pressed, keys_just_pressed, room):
+  def update(self, dt: int, keys_pressed, keys_just_pressed, entities: list[Entity]):
     super().update(dt)
 
     x_before_movement, y_before_movement = self.x, self.y
@@ -66,7 +69,7 @@ class Player(Character):
       self.take_knockback(dt)
 
     elif self.is_attacking():
-      self.__attack(dt = dt, enemies = room.enemies)
+      self.__attack(dt, entities)
 
     elif self.is_dodging():
       self.__dodge(keys_pressed, dt)
@@ -77,7 +80,7 @@ class Player(Character):
       elif keys_just_pressed[self.controls.ATTACK]:
         if isinstance(self.weapon, Weapon):
           self.attack_timer = 0
-          self.__attack(dt = dt, enemies = room.enemies)
+          self.__attack(dt, entities)
         # else: TODO avisar que nenhuma arma está equipada
 
     else:
@@ -87,7 +90,7 @@ class Player(Character):
       (self.x, self.y + 32),
       (self.width, self.height),
     )
-    self.__collide(keys_just_pressed, room, x_before_movement, y_before_movement)
+    self.__collide(entities, keys_just_pressed, x_before_movement, y_before_movement)
 
   def draw(self, screen: pygame.Surface):
     screen.blit(
@@ -95,22 +98,24 @@ class Player(Character):
       dest = (self.x, self.y),
       # area = (), TODO adicionar animações
     )
-    if isinstance(self.weapon, Weapon) and self.is_attacking():
+
+    # Arma
+    if type(self.weapon) == MeleeWeapon and self.is_attacking():
       self.weapon.draw(screen)
 
-  def __collide(self, keys_just_pressed, room, x_before_movement: float, y_before_movement: float):
-    for entity in room.get_entities():
+  def __collide(self, entities: list[Entity], keys_just_pressed, x_before_movement: float, y_before_movement: float):
+    for entity in entities:
       if self.is_colliding_with(entity):
         if type(entity) == Item:
           if len(keys_just_pressed) > 0 and keys_just_pressed[self.controls.ACTION]:
             self.pick_item(entity)
-            room.items.remove(entity)
+            entity.is_picked_up = True
 
         elif type(entity) == Chest:
             if entity.is_open and len(keys_just_pressed) > 0 and keys_just_pressed[self.controls.ACTION]:
               self.change_weapon(entity.change_weapons(self.weapon))
 
-        else: # entities que "empurram" o jogador
+        elif type(entity) != Enemy: # entities que "empurram" o jogador
           self.x = x_before_movement
           self.y = y_before_movement
 
@@ -157,15 +162,19 @@ class Player(Character):
     elif keys_pressed[self.controls.LEFT]:
       self.x -= self.dodge_speed / normalizer * dt
 
-  def __attack(self, dt: int, enemies: list):
+  def __attack(self, dt: int, entities: list):
     if not isinstance(self.weapon, Weapon):
       raise Exception("No weapon equiped in instance of Player")
+
+    x, y = self.collider.x, self.collider.y
+    match self.direction:
+      case Directions.DOWN: y += self.height
+      case Directions.RIGHT: x += self.width
 
     self.attack_timer += dt
     self.weapon.update(
       player_attack = self.attack,
-      enemies = enemies,
-      x = self.collider.x,
-      y = self.collider.y,
+      entities = entities,
+      x = x, y = y,
       direction = self.direction,
     )
