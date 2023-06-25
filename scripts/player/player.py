@@ -35,7 +35,7 @@ class Player(Character):
     return self.is_dodging() or self.iframes_timer < self.iframes
 
   def is_attacking(self) -> bool:
-    if type(self.weapon) != Weapon: return False
+    if not isinstance(self.weapon, Weapon): return False
     return self.attack_timer < self.weapon.type.attack_duration
 
   def is_dodging(self) -> bool:
@@ -46,7 +46,7 @@ class Player(Character):
     old_weapon = self.weapon
     self.weapon = new_weapon
     self.attack_timer = new_weapon.type.attack_duration
-    if type(old_weapon) == Weapon: return old_weapon
+    if isinstance(self.weapon, Weapon): return old_weapon
 
   def pick_item(self, item: Item):
     item.apply_effect(self)
@@ -75,7 +75,7 @@ class Player(Character):
       if keys_just_pressed[self.controls.DODGE]:
         self.dodge_timer = 0
       elif keys_just_pressed[self.controls.ATTACK]:
-        if type(self.weapon) == Weapon:
+        if isinstance(self.weapon, Weapon):
           self.attack_timer = 0
           self.__attack(dt = dt, enemies = room.enemies)
         # else: TODO avisar que nenhuma arma está equipada
@@ -95,7 +95,7 @@ class Player(Character):
       dest = (self.x, self.y),
       # area = (), TODO adicionar animações
     )
-    if type(self.weapon) == Weapon and self.is_attacking():
+    if isinstance(self.weapon, Weapon) and self.is_attacking():
       self.weapon.draw(screen)
 
   def __collide(self, keys_just_pressed, room, x_before_movement: float, y_before_movement: float):
@@ -158,7 +158,7 @@ class Player(Character):
       self.x -= self.dodge_speed / normalizer * dt
 
   def __attack(self, dt: int, enemies: list):
-    if type(self.weapon) != Weapon:
+    if not isinstance(self.weapon, Weapon):
       raise Exception("No weapon equiped in instance of Player")
 
     self.attack_timer += dt

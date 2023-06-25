@@ -2,6 +2,8 @@ from pygame import Surface
 from scripts.entity import Entity
 from scripts.player.weapon.weapon import Weapon
 from scripts.player.weapon.weapon_type import WeaponType
+from scripts.player.weapon.melee_weapon import MeleeWeapon
+from scripts.player.weapon.ranged_weapon import RangedWeapon
 
 class Chest(Entity):
   def __init__(self, sprite: Surface, weapon_type: WeaponType, x: float, y: float, is_open = False, is_infinite = False) -> None:
@@ -28,9 +30,9 @@ class Chest(Entity):
       )
 
   def change_weapons(self, player_weapon = None) -> Weapon:
-    weapon = Weapon(self.weapon_type)
+    weapon = MeleeWeapon(self.weapon_type) if (self.weapon_type.is_melee) else RangedWeapon(self.weapon_type)
 
-    if (not self.is_infinite) and type(player_weapon) == Weapon:
+    if (not self.is_infinite) and isinstance(player_weapon, Weapon):
       self.weapon_type = player_weapon.type
 
     return weapon

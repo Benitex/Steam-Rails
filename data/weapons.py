@@ -1,7 +1,8 @@
 from pygame import image
-from scripts.player.weapon.melee_weapon import MeleeWeapon
+from scripts.player.weapon.weapon_type import WeaponType
 
-WEAPON_EXAMPLE = MeleeWeapon(
+WEAPON_EXAMPLE = WeaponType(
+  is_melee = True,
   icon = image.load("placeholder/graphics/item.png"),
   attack_animation = image.load("placeholder/graphics/item.png"),
   damage = 1,
@@ -11,8 +12,8 @@ WEAPON_EXAMPLE = MeleeWeapon(
   hitbox_height = 32,
 )
 
-# TODO mudar arma para ranged
-WEAPON_EXAMPLE_2 = MeleeWeapon(
+WEAPON_EXAMPLE_2 = WeaponType(
+  is_melee = True,
   icon = image.load("placeholder/graphics/gun.png"),
   attack_animation = image.load("placeholder/graphics/gun.png"),
   damage = 1,

@@ -14,7 +14,7 @@ class PlayerUIBar:
     self.__draw_health_bar(screen)
 
   def __draw_weapon_icon(self, screen: pygame.Surface):
-    if type(self.player.weapon) == Weapon:
+    if isinstance(self.player.weapon, Weapon):
       screen.blit(
         source = self.player.weapon.type.icon,
         dest = (self.x + 10, self.y + 10),
