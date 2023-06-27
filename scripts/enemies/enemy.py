@@ -1,6 +1,7 @@
 import pygame, random
 from scripts.enemies.enemy_type import EnemyType
 from scripts.character import Character
+from scripts.entity import Entity
 from scripts.items.item import Item
 from data.directions import Directions
 
@@ -23,8 +24,10 @@ class Enemy(Character):
 
   target = None
 
-  def update(self, dt: int, possible_targets: list[Character]):
+  def update(self, dt: int, possible_targets: list[Character], walls: list[Entity]):
     super().update(dt)
+
+    x_before_movement, y_before_movement = self.x, self.y
 
     if self.is_taking_knockback():
       self.take_knockback(dt)
@@ -47,6 +50,12 @@ class Enemy(Character):
       for target in possible_targets:
         if self.is_colliding_with(target):
           self.__attack(target)
+
+    # Colisão com as paredes
+    for wall in walls:
+      if self.is_colliding_with(wall):
+        self.x = x_before_movement
+        self.y = y_before_movement
 
   def draw(self, screen: pygame.Surface):
     screen.blit(

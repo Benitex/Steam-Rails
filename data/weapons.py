@@ -117,5 +117,5 @@ BAZOOKA = WeaponType(
 )
 
 melee_weapons = [SWORD, GREAT_SWORD, HAMMER, LANCE, DAGGER]
-ranged_weapons = [MACHINE_GUN]
+ranged_weapons = [PISTOL, SHOTGUN, BOW, MACHINE_GUN, BAZOOKA]
 weapons = melee_weapons + ranged_weapons

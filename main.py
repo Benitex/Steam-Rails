@@ -9,7 +9,7 @@ clock = pygame.time.Clock()
 font = pygame.font.Font("placeholder/graphics/font.ttf", 12) # TODO adicionar fonte real
 
 while True:
-  keys_just_pressed = []
+  keys_just_pressed = pygame.key.ScancodeWrapper()
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
       pygame.quit()

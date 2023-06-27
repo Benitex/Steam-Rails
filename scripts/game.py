@@ -45,7 +45,7 @@ class Game: # TODO substituir pelo nome do jogo
 
     pygame.display.update()
 
-  def update(self, dt: int, keys_just_pressed):
+  def update(self, dt: int, keys_just_pressed: pygame.key.ScancodeWrapper):
     if len(self.players) == 0 and len(keys_just_pressed) > 0 and (keys_just_pressed[pygame.K_SPACE] or keys_just_pressed[pygame.K_RETURN]):
       self.current_room = InitialRoom()
       self.room_number = 0
@@ -55,7 +55,7 @@ class Game: # TODO substituir pelo nome do jogo
     self.remove_dead(self.players, self.current_room.enemies, self.current_room.items)
 
     for enemy in self.current_room.enemies:
-      enemy.update(dt, self.players)
+      enemy.update(dt, self.players, self.current_room.walls)
 
     for player in self.players:
       player.update(
@@ -78,10 +78,20 @@ class Game: # TODO substituir pelo nome do jogo
       player.x = 96
       player.y = 128 + player_number * 32
 
+      # Desativando ataques
+      player.attack_timer = player.weapon.type.attack_duration
+
+      bullets_to_be_removed = []
+      if not player.weapon.type.is_melee:
+        for bullet in player.weapon.bullets:
+          bullets_to_be_removed.append(bullet)
+      for bullet in bullets_to_be_removed:
+        player.weapon.bullets.remove(bullet)
+
     self.current_room = Room(
       tile_layers_files = [
-        open("placeholder/data/initial_room/initial_room_1.csv"),
-        open("placeholder/data/initial_room/initial_room_2.csv"),
+        open("placeholder/data/room/room_1.csv"),
+        open("placeholder/data/room/room_2.csv"),
       ],
       number_of_players = len(self.players),
       enemy_difficulty_multiplier = 1 + self.room_number // 10,

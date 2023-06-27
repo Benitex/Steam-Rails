@@ -12,7 +12,7 @@ class Character(Entity):
     self.health = health
     self.speed = speed
 
-  iframes = 300
+  iframes = 400
   iframes_timer = iframes
 
   KNOCKBACK_DURATION = 100

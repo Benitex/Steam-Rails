@@ -134,10 +134,11 @@ class Room:
   def generate_enemies(self, number_of_enemies: int, difficulty_multiplier = 1) -> list[Enemy]:
     enemies = []
     for i in range(number_of_enemies):
+      enemy_type = random.choice(enemy_types_list)
       enemies.append(Enemy(
-        enemy_type = random.choice(enemy_types_list),
+        enemy_type = enemy_type,
         difficulty_multiplier = difficulty_multiplier,
-        x = random.randint(5 * self.TILESET.tile_size, 15 * self.TILESET.tile_size),
-        y = random.randint(4 * self.TILESET.tile_size, 8 * self.TILESET.tile_size),
+        x = random.randint(5 * self.TILESET.tile_size, 15 * self.TILESET.tile_size - enemy_type.width),
+        y = random.randint(4 * self.TILESET.tile_size, 8 * self.TILESET.tile_size - enemy_type.height),
       ))
     return enemies

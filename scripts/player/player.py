@@ -30,7 +30,7 @@ class Player(Character):
   attack = 1
   weapon = None
 
-  dodge_speed = 0.3
+  DODGE_SPEED_MULTIPLIER = 2
   dodge_duration = 200
   dodge_timer = dodge_duration
   attack_timer = 0
@@ -61,7 +61,7 @@ class Player(Character):
 
     super().take_damage(damage, direction, knockback_intensity)
 
-  def update(self, dt: int, keys_pressed, keys_just_pressed, entities: list[Entity]):
+  def update(self, dt: int, keys_pressed: pygame.key.ScancodeWrapper, keys_just_pressed: pygame.key.ScancodeWrapper, entities: list[Entity]):
     super().update(dt)
 
     x_before_movement, y_before_movement = self.x, self.y
@@ -115,7 +115,7 @@ class Player(Character):
       for bullet in self.weapon.bullets:
         bullet.draw(screen)
 
-  def __collide(self, entities: list[Entity], keys_just_pressed, x_before_movement: float, y_before_movement: float):
+  def __collide(self, entities: list[Entity], keys_just_pressed: pygame.key.ScancodeWrapper, x_before_movement: float, y_before_movement: float):
     for entity in entities:
       if self.is_colliding_with(entity):
         if type(entity) == Item:
@@ -131,7 +131,7 @@ class Player(Character):
           self.x = x_before_movement
           self.y = y_before_movement
 
-  def __move(self, dt: int, keys_pressed):
+  def __move(self, dt: int, keys_pressed: pygame.key.ScancodeWrapper):
     normalizer = self.__movement_normalizer(keys_pressed)
 
     if keys_pressed[self.controls.UP]:
@@ -148,7 +148,7 @@ class Player(Character):
       self.direction = Directions.LEFT
       self.x -= self.speed / normalizer * dt
 
-  def __movement_normalizer(self, keys_pressed) -> float:
+  def __movement_normalizer(self, keys_pressed: pygame.key.ScancodeWrapper) -> float:
     if keys_pressed[self.controls.UP] and keys_pressed[self.controls.RIGHT]:
       return 1.4
     if keys_pressed[self.controls.UP] and keys_pressed[self.controls.LEFT]:
@@ -160,19 +160,19 @@ class Player(Character):
   
     return 1
 
-  def __dodge(self, keys_pressed, dt):
+  def __dodge(self, keys_pressed: pygame.key.ScancodeWrapper, dt: int):
     self.dodge_timer += dt
     normalizer = self.__movement_normalizer(keys_pressed)
 
     if keys_pressed[self.controls.UP]:
-      self.y -= self.dodge_speed / normalizer * dt
+      self.y -= self.speed * self.DODGE_SPEED_MULTIPLIER / normalizer * dt
     elif keys_pressed[self.controls.DOWN]:
-      self.y += self.dodge_speed / normalizer * dt
+      self.y += self.speed * self.DODGE_SPEED_MULTIPLIER / normalizer * dt
 
     if keys_pressed[self.controls.RIGHT]:
-      self.x += self.dodge_speed / normalizer * dt
+      self.x += self.speed * self.DODGE_SPEED_MULTIPLIER / normalizer * dt
     elif keys_pressed[self.controls.LEFT]:
-      self.x -= self.dodge_speed / normalizer * dt
+      self.x -= self.speed * self.DODGE_SPEED_MULTIPLIER / normalizer * dt
 
   def __attack(self, dt: int, entities: list):
     if not isinstance(self.weapon, Weapon):

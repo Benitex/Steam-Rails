@@ -68,7 +68,7 @@ class InitialRoom(Room):
     pygame.image.load("placeholder/graphics/player.png"),
   ]
 
-  def update(self, players: list[Player], keys_pressed):
+  def update(self, players: list[Player], keys_pressed: pygame.key.ScancodeWrapper):
     self.__add_players(players, keys_pressed)
     self.door.is_open = self.is_complete(players)
 
@@ -80,7 +80,7 @@ class InitialRoom(Room):
 
     return True
 
-  def __add_players(self, players: list[Player], keys_pressed):
+  def __add_players(self, players: list[Player], keys_pressed: pygame.key.ScancodeWrapper):
     number_of_players = len(players)
     if number_of_players > 3: return
 
