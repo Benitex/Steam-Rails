@@ -13,9 +13,10 @@ class Enemy(Character):
       width = enemy_type.width,
       height = enemy_type.height,
       direction = Directions.DOWN,
-      spritesheet = enemy_type.spritesheet,
       health = enemy_type.health,
       speed = enemy_type.speed,
+      spritesheet = enemy_type.spritesheet,
+      number_of_frames = 1,
     )
     self.type = enemy_type
     self.difficulty_multiplier = difficulty_multiplier

@@ -4,13 +4,16 @@ from scripts.entity import Entity
 from data.directions import Directions
 
 class Character(Entity):
-  def __init__(self, spritesheet: pygame.Surface, x: float, y: float, width: int, height: int, direction: Directions, health: int, speed: float) -> None:
+  def __init__(self, x: float, y: float, width: int, height: int, direction: Directions, health: int, speed: float, spritesheet: pygame.Surface, number_of_frames: int) -> None:
     super().__init__(x, y, width, height)
 
-    self.spritesheet = spritesheet
     self.direction = direction
     self.health = health
     self.speed = speed
+
+    self.spritesheet = spritesheet
+    self.number_of_frames = number_of_frames
+    self.frame_duration = 1000 // number_of_frames
 
   iframes = 400
   iframes_timer = iframes
@@ -19,6 +22,9 @@ class Character(Entity):
   knockback_timer = KNOCKBACK_DURATION
   knockback_direction = None
   knockback_intensity = 0
+
+  animation_frame = 0
+  animation_timer = 0
 
   def is_dead(self) -> bool: return self.health <= 0
 
@@ -40,6 +46,19 @@ class Character(Entity):
       pygame.draw.rect(screen, "green", self.collider)
     else:
       pygame.draw.rect(screen, "red", self.collider)
+
+  def run_animation(self, dt: int):
+    self.animation_timer += dt
+
+    if self.animation_timer > self.frame_duration:
+      self.animation_timer = 0
+      self.animation_frame += 1
+      if self.animation_frame >= self.number_of_frames:
+        self.animation_frame = 0
+
+  def reset_animation(self):
+    self.animation_frame = 0
+    self.animation_timer = 0
 
   def take_damage(self, damage: int, direction: Directions, knockback_intensity: float):
     if self.is_invincible(): return

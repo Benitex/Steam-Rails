@@ -18,9 +18,10 @@ class Player(Character):
       width = 32,
       height = 32,
       direction = Directions.UP,
-      spritesheet = spritesheet,
       health = self.max_health,
       speed = 0.15,
+      spritesheet = spritesheet,
+      number_of_frames = 11,
     )
     self.controls = controls
 
@@ -71,12 +72,15 @@ class Player(Character):
 
     if self.is_taking_knockback():
       self.take_knockback(dt)
+      self.reset_animation()
 
     elif self.is_attacking():
       self.__attack(dt, entities)
+      self.reset_animation()
 
     elif self.is_dodging():
       self.__dodge(keys_pressed, dt)
+      self.run_animation(dt)
 
     elif len(keys_just_pressed) > 0:
       if keys_just_pressed[self.controls.DODGE]:
@@ -91,9 +95,14 @@ class Player(Character):
 
         self.weapon.start_attack(x, y, self.direction)
         self.__attack(dt, entities)
+        self.reset_animation()
+
+    elif keys_pressed[self.controls.UP] or keys_pressed[self.controls.DOWN] or keys_pressed[self.controls.LEFT] or keys_pressed[self.controls.RIGHT]:
+      self.__move(dt, keys_pressed)
+      self.run_animation(dt)
 
     else:
-      self.__move(dt, keys_pressed)
+      self.reset_animation()
 
     self.collider = pygame.Rect(
       (self.x, self.y + 32),
@@ -102,10 +111,22 @@ class Player(Character):
     self.__collide(entities, keys_just_pressed, x_before_movement, y_before_movement)
 
   def draw(self, screen: pygame.Surface):
+    direction = 0
+    match self.direction:
+      case Directions.DOWN: direction = 0
+      case Directions.RIGHT: direction = 1
+      case Directions.LEFT: direction = 2
+      case Directions.UP: direction = 3
+
     screen.blit(
-      self.spritesheet,
+      source = self.spritesheet,
       dest = (self.x, self.y),
-      # area = (), TODO adicionar animações
+      area = (
+        self.animation_frame * 32,
+        direction * 64,
+        32,
+        64,
+      ),
     )
 
     # Arma
