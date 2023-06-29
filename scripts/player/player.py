@@ -32,7 +32,7 @@ class Player(Character):
   weapon = None
 
   DODGE_SPEED_MULTIPLIER = 2
-  dodge_duration = 200
+  dodge_duration = 300
   dodge_timer = dodge_duration
   attack_timer = 0
 
@@ -69,6 +69,7 @@ class Player(Character):
     if type(self.weapon) == RangedWeapon:
       for bullet in self.weapon.bullets:
         bullet.update(dt)
+      self.weapon.update(self.attack, entities)
 
     if self.is_taking_knockback():
       self.take_knockback(dt)
@@ -104,7 +105,7 @@ class Player(Character):
     else:
       self.reset_animation()
 
-    self.collider = pygame.Rect(
+    self.collider.update(
       (self.x, self.y + 32),
       (self.width, self.height),
     )
@@ -200,7 +201,8 @@ class Player(Character):
       raise Exception("No weapon equiped in instance of Player")
 
     self.attack_timer += dt
-    self.weapon.update(
-      player_attack = self.attack,
-      entities = entities,
-    )
+    if type(self.weapon) == MeleeWeapon:
+      self.weapon.update(
+        player_attack = self.attack,
+        entities = entities,
+      )

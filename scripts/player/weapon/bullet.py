@@ -10,10 +10,11 @@ class Bullet(Entity):
     self.direction = direction
 
   def draw(self, screen: pygame.Surface):
-    screen.blit(
-      source = self.sprite,
-      dest = (self.x, self.y),
-    )
+    self.draw_collider(screen)
+    # screen.blit(
+    #   source = self.sprite,
+    #   dest = (self.x, self.y),
+    # )
 
   def update(self, dt):
     match self.direction:
@@ -26,7 +27,7 @@ class Bullet(Entity):
       case Directions.LEFT:
         self.x -= self.speed * dt
 
-    self.collider = pygame.Rect(
+    self.collider.update(
       (self.x, self.y),
       (self.width, self.height),
     )

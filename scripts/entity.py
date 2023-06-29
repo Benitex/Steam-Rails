@@ -13,10 +13,10 @@ class Entity:
       (self.width, self.height),
     )
 
-  def is_colliding_with(self, entity):
+  def is_colliding_with(self, entity) -> bool:
     return self.collider.colliderect(entity.collider)
 
-  def get_distance_to(self, entity):
+  def get_distance_to(self, entity) -> float:
     return hypot(self.x - entity.x, self.y - entity.y)
 
   def draw_collider(self, screen: pygame.Surface):

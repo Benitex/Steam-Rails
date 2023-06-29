@@ -32,7 +32,7 @@ class Enemy(Character):
 
     if self.is_taking_knockback():
       self.take_knockback(dt)
-      self.collider = pygame.Rect(
+      self.collider.update(
         (self.x, self.y),
         (self.type.width, self.type.height),
       )
@@ -44,7 +44,7 @@ class Enemy(Character):
       self.__choose_target(possible_targets)
       self.__move(dt)
 
-      self.collider = pygame.Rect(
+      self.collider.update(
         (self.x, self.y),
         (self.type.width, self.type.height),
       )
@@ -82,12 +82,9 @@ class Enemy(Character):
 
     normalizer = self.__movement_normalizer()
 
-    # FIXME corrigir direção do knockback
     if self.y < self.target.collider.y:
-      self.direction = Directions.DOWN
       self.y += self.type.speed / normalizer * dt
     elif self.y > self.target.collider.y:
-      self.direction = Directions.UP
       self.y -= self.type.speed / normalizer * dt
 
     if self.x < self.target.collider.x:
@@ -123,6 +120,6 @@ class Enemy(Character):
     target.take_damage(
       damage = self.type.damage * self.difficulty_multiplier,
       direction = self.direction,
-      knockback_intensity = 0.2,
+      knockback_intensity = self.type.knockback_intensity,
     )
     self.attack_timer = self.type.attack_cooldown

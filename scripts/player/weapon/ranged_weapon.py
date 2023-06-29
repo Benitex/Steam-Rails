@@ -30,7 +30,6 @@ class RangedWeapon(Weapon):
           if bullet not in bullets_to_be_removed and type(entity) != Item:
             bullets_to_be_removed.append(bullet)
 
-    # FIXME algumas Bullets que não desaparecem quando encostam na parede (vindo de muito longe?)
     for bullet in bullets_to_be_removed:
       self.bullets.remove(bullet)
 
