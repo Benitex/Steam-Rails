@@ -1,4 +1,4 @@
-from pygame import Surface
+from pygame import Surface, mixer
 from scripts.entity import Entity
 from scripts.player.weapon.weapon import Weapon
 from scripts.player.weapon.weapon_type import WeaponType
@@ -18,6 +18,8 @@ class Chest(Entity):
     self.is_open = is_open
     self.is_infinite = is_infinite
 
+  SOUND_EFFECT = mixer.Sound("audio/sound_effects/chest.wav")
+
   def draw(self, screen: Surface):
     screen.blit(
       source = self.sprite,
@@ -30,6 +32,7 @@ class Chest(Entity):
       )
 
   def change_weapons(self, player_weapon = None) -> Weapon:
+    mixer.Sound.play(self.SOUND_EFFECT)
     weapon = MeleeWeapon(self.weapon_type) if (self.weapon_type.is_melee) else RangedWeapon(self.weapon_type)
 
     if (not self.is_infinite) and isinstance(player_weapon, Weapon):

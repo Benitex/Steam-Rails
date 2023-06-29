@@ -1,17 +1,16 @@
 # Projeto-de-Praticas-de-Programacao
 
-Jogo feito com pygame.
+Sound effects are not included in this repository because of the restrictions from the Minifantasy - Dungeon Audio Pack.
 
-## Enunciado
+## Credits
 
-### TRABALHO FINAL
+[Benitex](https://github.com/Benitex) - Lead Programmer / Game Designer
 
-* Criar um jogo 2D usando PyGame;
-* O jogo deve ter uma condição de vitória e uma condição de derrota claras;
-* O jogo deve poder ser reiniciado;
-* Deve haver um personagem que pode ser movimentado pelo teclado;
-* Ele deve realizar uma ação usando o clique do mouse, ou uma tecla (eventos do PyGame);
-* Devem haver animações para esse personagem e para os obstáculos/inimigos (pelo menos dois tipos de ameaça devem existir para tirar a vida do jogador);
-* O mapa deve ser montado usando uma matriz e colisão como mostrado em sala (independente da visão escolhida);
-* Um txt deve ser utilizado (para carregar o mapa, para gravar o estado do jogo, para gravar o ranking, etc.);
-* O jogo deve possuir algum tipo de pontuação.
+[TuzinhoRisonho](https://github.com/TuzinhoRisonho) - Programmer / Game Designer
+
+[moltisantic](https://github.com/moltisantic) - Artist / Game Designer
+
+### Assets
+
+Music from [Baron's Music Pack](https://eric-the-funny-baron.itch.io/barons-music-pack), by Eric the Funny Baron.
+Sound effects from [Minifantasy - Dungeon Audio Pack](https://leohpaz.itch.io/minifantasy-dungeon-sfx-pack), by Leohpaz.

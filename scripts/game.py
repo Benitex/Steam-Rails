@@ -11,6 +11,8 @@ class Game: # TODO substituir pelo nome do jogo
   room_number = 0
   players = []
 
+  DOOR_SOUND_EFFECT = pygame.mixer.Sound("audio/sound_effects/door.mp3")
+
   def draw(self, screen: pygame.Surface, font: pygame.font.Font):
     screen.fill("black")
 
@@ -74,6 +76,8 @@ class Game: # TODO substituir pelo nome do jogo
       self.move_to_next_room()
 
   def move_to_next_room(self):
+    pygame.mixer.Sound.play(self.DOOR_SOUND_EFFECT)
+
     for player_number, player in enumerate(self.players):
       player.x = 96
       player.y = 160 + player_number * 32

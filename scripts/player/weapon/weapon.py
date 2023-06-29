@@ -22,6 +22,7 @@ class Weapon:
   def update(self, player_attack: int, entities: list[Entity]): pass
 
   def start_attack(self, x: float, y: float, direction: Directions):
+    pygame.mixer.Sound.play(self.type.sound_effect)
     self.x = x
     self.y = y
     self.direction = direction

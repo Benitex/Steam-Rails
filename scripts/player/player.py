@@ -36,6 +36,8 @@ class Player(Character):
   dodge_timer = dodge_duration
   attack_timer = 0
 
+  DAMAGE_SOUND_EFFECT = pygame.mixer.Sound("audio/sound_effects/player_damage.wav")
+
   def is_invincible(self) -> bool:
     return self.is_dodging() or self.iframes_timer < self.iframes
 
@@ -60,6 +62,7 @@ class Player(Character):
   def take_damage(self, damage: int, direction: Directions, knockback_intensity: float):
     if self.is_invincible(): return
 
+    pygame.mixer.Sound.play(self.DAMAGE_SOUND_EFFECT)
     super().take_damage(damage, direction, knockback_intensity)
 
   def update(self, dt: int, keys_pressed: pygame.key.ScancodeWrapper, keys_just_pressed: pygame.key.ScancodeWrapper, entities: list[Entity]):
