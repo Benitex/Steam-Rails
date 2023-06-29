@@ -16,7 +16,7 @@ class Enemy(Character):
       health = enemy_type.health,
       speed = enemy_type.speed,
       spritesheet = enemy_type.spritesheet,
-      number_of_frames = 1,
+      number_of_frames = enemy_type.number_of_frames,
     )
     self.type = enemy_type
     self.difficulty_multiplier = difficulty_multiplier
@@ -36,13 +36,16 @@ class Enemy(Character):
         (self.x, self.y),
         (self.type.width, self.type.height),
       )
+      self.reset_animation()
 
     elif self.attack_timer > 0:
       self.attack_timer -= dt
+      self.reset_animation()
 
     else:
       self.__choose_target(possible_targets)
       self.__move(dt)
+      self.run_animation(dt)
 
       self.collider.update(
         (self.x, self.y),
@@ -59,10 +62,19 @@ class Enemy(Character):
         self.y = y_before_movement
 
   def draw(self, screen: pygame.Surface):
+    direction = 0 if (self.direction == Directions.RIGHT) else 1
     screen.blit(
       source = self.type.spritesheet,
-      dest = (self.x, self.y),
-      # area = (), TODO adicionar animações
+      dest = (
+        self.x + self.type.sprite_x_offset,
+        self.y - self.type.sprite_y_offset,
+      ),
+      area = (
+        self.animation_frame * (self.type.width + self.type.sprite_x_offset),
+        direction * (self.type.height + self.type.sprite_y_offset),
+        self.type.width + self.type.sprite_x_offset,
+        self.type.height + self.type.sprite_y_offset,
+      ),
     )
 
   def drop_items(self, number_of_players: int) -> list[Item]:

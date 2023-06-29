@@ -106,7 +106,7 @@ class Player(Character):
       self.reset_animation()
 
     self.collider.update(
-      (self.x, self.y + 32),
+      (self.x, self.y),
       (self.width, self.height),
     )
     self.__collide(entities, keys_just_pressed, x_before_movement, y_before_movement)
@@ -121,7 +121,7 @@ class Player(Character):
 
     screen.blit(
       source = self.spritesheet,
-      dest = (self.x, self.y),
+      dest = (self.x, self.y - 32),
       area = (
         self.animation_frame * 32,
         direction * 64,

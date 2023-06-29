@@ -76,7 +76,7 @@ class Game: # TODO substituir pelo nome do jogo
   def move_to_next_room(self):
     for player_number, player in enumerate(self.players):
       player.x = 96
-      player.y = 128 + player_number * 32
+      player.y = 160 + player_number * 32
 
       # Desativando ataques
       player.attack_timer = player.weapon.type.attack_duration
