@@ -113,7 +113,7 @@ class Game: # TODO substituir pelo nome do jogo
     for enemy in enemies:
       if enemy.is_dead():
         dead_enemies.append(enemy)
-        self.current_room.items += enemy.drop_items(number_of_players = len(players))
+        self.current_room.items += enemy.drop_items()
 
     for dead_enemy in dead_enemies:
       enemies.remove(dead_enemy)

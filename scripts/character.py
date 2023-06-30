@@ -18,8 +18,8 @@ class Character(Entity):
   iframes = 400
   iframes_timer = iframes
 
-  KNOCKBACK_DURATION = 100
-  knockback_timer = KNOCKBACK_DURATION
+  knockback_duration = 100
+  knockback_timer = knockback_duration
   knockback_direction = None
   knockback_intensity = 0
 
@@ -32,7 +32,7 @@ class Character(Entity):
     return self.iframes_timer < self.iframes
 
   def is_taking_knockback(self) -> bool:
-    return self.knockback_timer < self.KNOCKBACK_DURATION
+    return self.knockback_timer < self.knockback_duration
 
   def update(self, dt: int):
     if self.iframes_timer < self.iframes:

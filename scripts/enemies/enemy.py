@@ -77,11 +77,11 @@ class Enemy(Character):
       ),
     )
 
-  def drop_items(self, number_of_players: int) -> list[Item]:
+  def drop_items(self) -> list[Item]:
     drops = []
 
     for drop in self.type.drops:
-      if random.randint(1, 100) <= drop[1] * number_of_players:
+      if random.randint(1, 100) <= drop[1]:
         drops.append(Item(
           item_type = drop[0],
           x = self.x, y = self.y,

@@ -5,14 +5,15 @@ from data.items import *
 ENEMY_EXAMPLE = EnemyType(
   width = 64,
   height = 64,
-  damage = 1,
-  attack_cooldown = 240,
+  damage = 2,
+  attack_cooldown = 400,
   knockback_intensity = 0.3,
   health = 5,
   speed = 0.05,
   drops = [
-    [HEALTH_EXTENDER_EXAMPLE, 10],
-    [HEALING_POTION, 20]
+    [STONE_POTION, 15],
+    [HEALTH_EXTENDER_EXAMPLE, 20],
+    [HEALING_POTION, 20],
   ],
   spritesheet = image.load("placeholder/graphics/enemies/Eyegore_Statue.png"),
   number_of_frames = 10,
@@ -30,7 +31,7 @@ ENEMY_EXAMPLE_2 = EnemyType(
   health = 2,
   speed = 0.1,
   drops = [
-    [ITEM_EXAMPLE, 10],
+    [STRENGTH_POTION, 10],
     [HEALING_POTION, 20],
   ],
 )
@@ -38,4 +39,6 @@ ENEMY_EXAMPLE_2 = EnemyType(
 enemy_types_list = [
   ENEMY_EXAMPLE,
   ENEMY_EXAMPLE_2,
+  ENEMY_EXAMPLE_3,
+  ENEMY_EXAMPLE_4,
 ]

@@ -19,7 +19,7 @@ class Player(Character):
       height = 32,
       direction = Directions.UP,
       health = self.max_health,
-      speed = 0.15,
+      speed = self.speed,
       spritesheet = spritesheet,
       number_of_frames = 11,
     )
@@ -29,9 +29,10 @@ class Player(Character):
 
   max_health = 5
   attack = 1
+  speed = 0.15
   weapon = None
 
-  DODGE_SPEED_MULTIPLIER = 2
+  dodge_speed_multiplier = 2.0
   dodge_duration = 300
   dodge_timer = dodge_duration
   attack_timer = 0
@@ -124,12 +125,12 @@ class Player(Character):
 
     screen.blit(
       source = self.spritesheet,
-      dest = (self.x, self.y - 32),
+      dest = (self.x, self.y - self.height),
       area = (
-        self.animation_frame * 32,
-        direction * 64,
-        32,
-        64,
+        self.animation_frame * self.width,
+        direction * self.height * 2,
+        self.width,
+        self.height * 2,
       ),
     )
 
@@ -190,14 +191,14 @@ class Player(Character):
     normalizer = self.__movement_normalizer(keys_pressed)
 
     if keys_pressed[self.controls.UP]:
-      self.y -= self.speed * self.DODGE_SPEED_MULTIPLIER / normalizer * dt
+      self.y -= self.speed * self.dodge_speed_multiplier / normalizer * dt
     elif keys_pressed[self.controls.DOWN]:
-      self.y += self.speed * self.DODGE_SPEED_MULTIPLIER / normalizer * dt
+      self.y += self.speed * self.dodge_speed_multiplier / normalizer * dt
 
     if keys_pressed[self.controls.RIGHT]:
-      self.x += self.speed * self.DODGE_SPEED_MULTIPLIER / normalizer * dt
+      self.x += self.speed * self.dodge_speed_multiplier / normalizer * dt
     elif keys_pressed[self.controls.LEFT]:
-      self.x -= self.speed * self.DODGE_SPEED_MULTIPLIER / normalizer * dt
+      self.x -= self.speed * self.dodge_speed_multiplier / normalizer * dt
 
   def __attack(self, dt: int, entities: list):
     if not isinstance(self.weapon, Weapon):
