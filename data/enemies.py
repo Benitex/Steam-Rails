@@ -12,8 +12,8 @@ ENEMY_EXAMPLE = EnemyType(
   speed = 0.05,
   drops = [
     [STONE_POTION, 15],
-    [HEALTH_EXTENDER_EXAMPLE, 20],
-    [HEALING_POTION, 20],
+    [HEALTH_EXTENDER_EXAMPLE, 15],
+    [GREATER_HEALING_POTION, 15],
   ],
   spritesheet = image.load("placeholder/graphics/enemies/Eyegore_Statue.png"),
   number_of_frames = 10,
@@ -30,8 +30,46 @@ ENEMY_EXAMPLE_2 = EnemyType(
   knockback_intensity = 0.2,
   health = 2,
   speed = 0.1,
+  run_duration = 1200,
+  drops = [
+    [WEAKNESS_POTION, 10],
+    [SPEED_POTION, 15],
+    [HEALING_POTION, 20],
+  ],
+)
+
+ENEMY_EXAMPLE_3 = EnemyType(
+  spritesheet = image.load("placeholder/graphics/enemies/evil_enemy.png"),
+  number_of_frames = 3,
+  width = 32,
+  height = 32,
+  damage = 0,
+  attack_cooldown = 200,
+  knockback_intensity = 1,
+  health = 1,
+  speed = 0.2,
+  run_duration = 600,
+  drops = [
+    [FLOATING_POTION, 10],
+    [DANCING_POTION, 10],
+    [HEALING_POTION, 15],
+  ],
+)
+
+ENEMY_EXAMPLE_4 = EnemyType(
+  spritesheet = image.load("placeholder/graphics/enemies/enemy.png"),
+  number_of_frames = 3,
+  sprite_y_offset = 16,
+  width = 32,
+  height = 32,
+  damage = 1,
+  attack_cooldown = 300,
+  knockback_intensity = 0.15,
+  health = 3,
+  speed = 0.07,
   drops = [
     [STRENGTH_POTION, 10],
+    [ENDURANCE_POTION, 15],
     [HEALING_POTION, 20],
   ],
 )

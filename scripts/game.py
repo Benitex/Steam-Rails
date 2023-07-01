@@ -6,7 +6,7 @@ from scripts.enemies.enemy import Enemy
 from scripts.items.item import Item
 from scripts.player.player_ui_bar import PlayerUIBar
 
-class Game: # TODO substituir pelo nome do jogo
+class SteamRails:
   current_room = InitialRoom()
   room_number = 0
   players = []

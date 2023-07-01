@@ -22,8 +22,17 @@ class Enemy(Character):
     self.difficulty_multiplier = difficulty_multiplier
     self.health *= difficulty_multiplier
     self.attack_timer = self.type.attack_cooldown
+    self.run_timer = self.type.run_duration
 
   target = None
+
+  def should_run(self) -> bool:
+    if not isinstance(self.target, Character): return False
+    return self.run_timer < self.type.run_duration
+
+  def take_damage(self, damage: int, direction: Directions, knockback_intensity: float):
+    super().take_damage(damage, direction, knockback_intensity)
+    self.run_timer = 0
 
   def update(self, dt: int, possible_targets: list[Character], walls: list[Entity]):
     super().update(dt)
@@ -44,7 +53,11 @@ class Enemy(Character):
 
     else:
       self.__choose_target(possible_targets)
-      self.__move(dt)
+      if self.should_run():
+        self.__move_away_from_target(dt)
+        self.run_timer += dt
+      else:
+        self.__move_towards_target(dt)
       self.run_animation(dt)
 
       self.collider.update(
@@ -89,22 +102,39 @@ class Enemy(Character):
 
     return drops
 
-  def __move(self, dt: int):
+  def __move_towards_target(self, dt: int):
     if not isinstance(self.target, Character): return
 
     normalizer = self.__movement_normalizer()
 
-    if self.y < self.target.collider.y:
+    if self.collider.y < self.target.collider.y:
       self.y += self.type.speed / normalizer * dt
-    elif self.y > self.target.collider.y:
+    elif self.collider.y > self.target.collider.y:
       self.y -= self.type.speed / normalizer * dt
 
-    if self.x < self.target.collider.x:
+    if self.collider.x < self.target.collider.x:
       self.direction = Directions.RIGHT
       self.x += self.type.speed / normalizer * dt
-    elif self.x > self.target.collider.x:
+    elif self.collider.x > self.target.collider.x:
       self.direction = Directions.LEFT
       self.x -= self.type.speed / normalizer * dt
+
+  def __move_away_from_target(self, dt: int):
+    if not isinstance(self.target, Character): return
+
+    normalizer = self.__movement_normalizer()
+
+    if self.collider.y < self.target.collider.y:
+      self.y -= self.type.speed / normalizer * dt
+    elif self.collider.y > self.target.collider.y:
+      self.y += self.type.speed / normalizer * dt
+
+    if self.collider.x < self.target.collider.x:
+      self.direction = Directions.LEFT
+      self.x -= self.type.speed / normalizer * dt
+    elif self.collider.x > self.target.collider.x:
+      self.direction = Directions.RIGHT
+      self.x += self.type.speed / normalizer * dt
 
   def __movement_normalizer(self) -> float:
     if not isinstance(self.target, Character): return 1
