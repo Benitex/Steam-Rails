@@ -18,10 +18,8 @@ class Room:
     self.chests = chests or []
     self.door = Door(
       sprite = self.DOOR_SPRITE,
-      x = 512, y = 160,
+      x = 736, y = 256,
     )
-
-    # TODO gerar obstáculos e modificações na sala
 
     if len(self.chests) == 0:
       if random.randint(1, 100) <= self.CHEST_SPAWN_RATE:
@@ -29,8 +27,8 @@ class Room:
           self.chests.append(Chest(
             sprite = self.CHEST_SPRITE,
             weapon_type = random.choice(weapons),
-            x = 224 + player_number * 64, # TODO atualizar com a posição no mapa final
-            y = 96,
+            x = 288 + player_number * 96,
+            y = 192,
           ))
 
     if generate_enemies and len(self.enemies) == 0:
@@ -41,31 +39,31 @@ class Room:
       self.enemies += self.generate_enemies(number_of_enemies, enemy_difficulty_multiplier)
 
   TILESET = Tileset(
-    image = pygame.image.load("placeholder/graphics/tileset.png"), # TODO adicionar o tileset real
+    image = pygame.image.load("graphics/tileset.png"),
     tile_size = 32,
-    tiles_in_a_row = 10,
+    tiles_in_a_row = 9,
     collisionable_tiles = [
-      # TODO atualizar com o tileset real
-      0, 1, 2, 3, 4,
-      10, 20, 30,
-      15, 25, 35,
-      40, 41, 42, 43, 44, 45, 47,
-      54, 55, 57,
+      0,
+      31,
+      40, 41,
+      45, 47, 48, 49,
+      54, 55, 56,
+      63,
     ],
   )
   CHEST_SPRITE = TILESET.image.subsurface(
     pygame.Rect(
-      (3 * TILESET.tile_size, 8 * TILESET.tile_size),
+      (4 * TILESET.tile_size, 5 * TILESET.tile_size),
       (TILESET.tile_size, TILESET.tile_size),
     )
   )
   DOOR_SPRITE = TILESET.image.subsurface(
     pygame.Rect(
-      (8 * TILESET.tile_size, 4 * TILESET.tile_size),
-      (TILESET.tile_size, TILESET.tile_size * 2),
+      (1 * TILESET.tile_size, 5 * TILESET.tile_size),
+      (TILESET.tile_size, TILESET.tile_size * 3),
     )
   )
-  MAP_WIDTH = 19 # quantidade de tiles em uma linha do mapa
+  MAP_WIDTH = 26 # quantidade de tiles em uma linha do mapa
   CHEST_SPAWN_RATE = 25
 
   def is_complete(self) -> bool:
@@ -138,7 +136,7 @@ class Room:
       enemies.append(Enemy(
         enemy_type = enemy_type,
         difficulty_multiplier = difficulty_multiplier,
-        x = random.randint(5 * self.TILESET.tile_size, 15 * self.TILESET.tile_size - enemy_type.width),
-        y = random.randint(4 * self.TILESET.tile_size, 8 * self.TILESET.tile_size - enemy_type.height),
+        x = random.randint(7 * self.TILESET.tile_size, 18 * self.TILESET.tile_size - enemy_type.width),
+        y = random.randint(5 * self.TILESET.tile_size, 12 * self.TILESET.tile_size - enemy_type.height),
       ))
     return enemies

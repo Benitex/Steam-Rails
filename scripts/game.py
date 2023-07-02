@@ -31,18 +31,18 @@ class SteamRails:
     for player_number, player in enumerate(self.players):
       PlayerUIBar(
         player = player,
-        x = 16 + 180 * player_number,
+        x = 16 + 288 * player_number,
         y = 16,
       ).draw(screen)
 
     screen.blit(
       source = font.render(f"Room number: {self.room_number}", False, "white"),
-      dest = (10, 360),
+      dest = (32, 448),
     )
     if len(self.players) == 0 and type(self.current_room) != InitialRoom:
       screen.blit(
         source = font.render("Press space to restart.", False, "white"),
-        dest = (180, 320),
+        dest = (288, 320),
       )
 
     pygame.display.update()
@@ -80,7 +80,7 @@ class SteamRails:
 
     for player_number, player in enumerate(self.players):
       player.x = 96
-      player.y = 160 + player_number * 32
+      player.y = 256 + player_number * 32
 
       # Desativando ataques
       player.attack_timer = player.weapon.type.attack_duration
@@ -94,8 +94,9 @@ class SteamRails:
 
     self.current_room = Room(
       tile_layers_files = [
-        open("placeholder/data/room/room_1.csv"),
-        open("placeholder/data/room/room_2.csv"),
+        open("data/room/room_1.csv"),
+        open("data/room/room_2.csv"),
+        open("data/room/room_3.csv"),
       ],
       number_of_players = len(self.players),
       enemy_difficulty_multiplier = 1 + self.room_number // 10,

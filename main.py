@@ -3,8 +3,8 @@ pygame.init()
 from sys import exit
 from scripts.game import SteamRails
 
-screen = pygame.display.set_mode((608, 384))
 game = SteamRails()
+screen = pygame.display.set_mode((832, 480))
 clock = pygame.time.Clock()
 font = pygame.font.Font("placeholder/graphics/font.ttf", 12) # TODO adicionar fonte real
 

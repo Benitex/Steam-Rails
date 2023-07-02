@@ -9,8 +9,9 @@ class InitialRoom(Room):
   def __init__(self) -> None:
     super().__init__(
       tile_layers_files = [
-        open("placeholder/data/initial_room/initial_room_1.csv"),
-        open("placeholder/data/initial_room/initial_room_2.csv"),
+        open("data/room/room_1.csv"),
+        open("data/room/room_2.csv"),
+        open("data/room/room_3.csv"),
       ],
       number_of_players = 0,
       generate_enemies = False,
@@ -20,14 +21,14 @@ class InitialRoom(Room):
           is_infinite = True,
           is_open = True,
           sprite = self.CHEST_SPRITE,
-          x = 224, y = 96,
+          x = 320, y = 192,
         ),
         Chest(
           weapon_type = random.choice(ranged_weapons),
           is_infinite = True,
           is_open = True,
           sprite = self.CHEST_SPRITE,
-          x = 352, y = 96,
+          x = 448, y = 192,
         ),
       ],
     )
@@ -91,8 +92,8 @@ class InitialRoom(Room):
             return
 
         players.append(Player(
-          x = 192 + number_of_players * 96,
-          y = 224,
+          x = 288 + number_of_players * 96,
+          y = 384,
           controls = controls,
           spritesheet = self.PLAYER_SPRITES[number_of_players],
         ))
