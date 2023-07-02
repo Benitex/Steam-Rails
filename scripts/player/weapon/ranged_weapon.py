@@ -15,7 +15,7 @@ class RangedWeapon(Weapon):
 
   def draw(self, screen: Surface): pass
 
-  def update(self, player_attack: int, entities: list[Entity]):
+  def update(self, dt: int, player_attack: int, entities: list[Entity]):
     bullets_to_be_removed = []
 
     for entity in entities:

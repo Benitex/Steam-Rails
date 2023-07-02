@@ -4,7 +4,7 @@ from scripts.player.weapon.weapon_type import WeaponType
 SWORD = WeaponType(
   is_melee = True,
   icon = image.load("placeholder/graphics/icons/sword.png"),
-  attack_animation = image.load("placeholder/graphics/item.png"),
+  attack_animation = image.load("graphics/weapons/sword.png"),
   sound_effect = mixer.Sound("audio/sound_effects/weapons/sword.wav"),
   damage = 2,
   attack_duration = 300,

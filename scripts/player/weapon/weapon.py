@@ -11,15 +11,11 @@ class Weapon:
   x, y = 0, 0
   direction = Directions.UP
 
-  def draw(self, screen: pygame.Surface):
-    screen.blit(
-      source = self.type.attack_animation,
-      dest = (self.x, self.y),
-      # area = , TODO adicionar animações
-    )
+  @abstractmethod
+  def draw(self, screen: pygame.Surface): pass
 
   @abstractmethod
-  def update(self, player_attack: int, entities: list[Entity]): pass
+  def update(self, dt: int, player_attack: int, entities: list[Entity]): pass
 
   def start_attack(self, x: float, y: float, direction: Directions):
     pygame.mixer.Sound.play(self.type.sound_effect)

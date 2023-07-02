@@ -73,7 +73,7 @@ class Player(Character):
     if type(self.weapon) == RangedWeapon:
       for bullet in self.weapon.bullets:
         bullet.update(dt)
-      self.weapon.update(self.attack, entities)
+      self.weapon.update(dt, self.attack, entities)
 
     if self.is_taking_knockback():
       self.take_knockback(dt)
@@ -206,7 +206,4 @@ class Player(Character):
 
     self.attack_timer += dt
     if type(self.weapon) == MeleeWeapon:
-      self.weapon.update(
-        player_attack = self.attack,
-        entities = entities,
-      )
+      self.weapon.update(dt, self.attack, entities)
