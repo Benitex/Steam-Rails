@@ -20,13 +20,20 @@ This game was made as the final project for the Programming Practices discipline
 
 Some of these assets were heavily modified by moltisantic. The map was made with [Tiled](https://www.mapeditor.org).
 
-### Graphics
+### Weapons
 
 Melee weapons from [32x32 All Pixel MELEE Weapons for RPG FREE](https://johnmartpixel25.itch.io/32x32-pixel-weapons-for-rpg-free?download) by JohnMartPixel25.
 
+### Items
+
+Most are from [Shikashi's Fantasy Icons Pack](https://cheekyinkling.itch.io/shikashis-fantasy-icons-pack) by Matt Firth (cheekyinkling) and game-icons.net.
+Compass from [Free Pirate Stuff Icons](https://free-game-assets.itch.io/free-pirate-stuff-pixel-art-icons).
+Teddy bear from [Pixel art items part 1](https://ipixl.itch.io/pixel-art-items-part-1) by iPixi.
+Feather from [Free loot Icons 32x32 Pixel Art](https://free-game-assets.itch.io/free-40-loot-icons-pixel-art).
+
 ### Tileset
 
-Floor tiles from [Ayene's Tiles](https://forums.rpgmakerweb.com/index.php?threads%2Fayenes-tiles.27710%2F) by Ayene.
+Floor tiles from [Ayene's Tiles](https://forums.rpgmakerweb.com/index.php?threads%2Fayenes-tiles.27710%2F).
 Chairs from [Top-down Retro Interior House | Royalty Free pixel art asset pack](https://penzilla.itch.io/top-down-retro-house) by Penzilla.
 Chest by [Bonsaiheldin](https://opengameart.org/content/treasure-chests-32x32).
 

@@ -11,9 +11,9 @@ ENEMY_EXAMPLE = EnemyType(
   health = 5,
   speed = 0.05,
   drops = [
-    [STONE_POTION, 15],
-    [HEALTH_EXTENDER_EXAMPLE, 15],
-    [GREATER_HEALING_POTION, 15],
+    [COMPASS, 15],
+    [PINK_ROSE, 15],
+    [HONEY, 15],
   ],
   spritesheet = image.load("placeholder/graphics/enemies/Eyegore_Statue.png"),
   number_of_frames = 10,
@@ -32,9 +32,9 @@ ENEMY_EXAMPLE_2 = EnemyType(
   speed = 0.1,
   run_duration = 1200,
   drops = [
-    [WEAKNESS_POTION, 10],
-    [SPEED_POTION, 15],
-    [HEALING_POTION, 20],
+    [TEDDY_BEAR, 10],
+    [TRUMPET, 15],
+    [EGGS, 20],
   ],
 )
 
@@ -50,9 +50,9 @@ ENEMY_EXAMPLE_3 = EnemyType(
   speed = 0.2,
   run_duration = 600,
   drops = [
-    [FLOATING_POTION, 10],
-    [DANCING_POTION, 10],
-    [HEALING_POTION, 15],
+    [FEATHER, 10],
+    [CHEESE, 10],
+    [EGGS, 15],
   ],
 )
 
@@ -68,9 +68,9 @@ ENEMY_EXAMPLE_4 = EnemyType(
   health = 3,
   speed = 0.07,
   drops = [
-    [STRENGTH_POTION, 10],
-    [ENDURANCE_POTION, 15],
-    [HEALING_POTION, 20],
+    [TOOTH, 10],
+    [BELT, 15],
+    [EGGS, 20],
   ],
 )
 

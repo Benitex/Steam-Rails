@@ -19,6 +19,7 @@ def modify_speed(player: Player, percentage: float):
 def modify_knockback_duration(player: Player, amount: int):
   player.knockback_duration += amount
   if player.knockback_duration < 0: player.knockback_duration = 0
+  player.knockback_timer = player.knockback_duration
 
 def modify_dodge_speed_multiplier(player: Player, amount: float):
   player.dodge_speed_multiplier += amount

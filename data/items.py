@@ -2,51 +2,51 @@ from pygame import image
 from scripts.items.item_type import ItemType
 from data.item_effects import *
 
-HEALTH_EXTENDER_EXAMPLE = ItemType(
+PINK_ROSE = ItemType(
   effect = lambda player : modify_max_health(player, 2),
-  image = image.load("placeholder/graphics/items/potion.png"),
+  image = image.load("graphics/items/pink_rose.png"),
 )
-HEALING_POTION = ItemType(
+EGGS = ItemType(
   effect = lambda player : heal(player, 1),
-  image = image.load("placeholder/graphics/items/healing.png"),
+  image = image.load("graphics/items/eggs.png"),
 )
-GREATER_HEALING_POTION = ItemType(
+HONEY = ItemType(
   effect = lambda player : heal(player, 2),
-  image = image.load("placeholder/graphics/items/healing.png"),
+  image = image.load("graphics/items/honey.png"),
 )
 
-STRENGTH_POTION = ItemType(
+TOOTH = ItemType(
   effect = lambda player : modify_attack(player, 1),
-  image = image.load("placeholder/graphics/items/item.png"),
+  image = image.load("graphics/items/tooth.png"),
 )
-WEAKNESS_POTION = ItemType(
+TEDDY_BEAR = ItemType(
   effect = lambda player : modify_attack(player, -1),
-  image = image.load("placeholder/graphics/items/item.png"),
+  image = image.load("graphics/items/teddy_bear.png"),
 )
 
-SPEED_POTION = ItemType(
+TRUMPET = ItemType(
   effect = lambda player : modify_speed(player, 1.3),
-  image = image.load("placeholder/graphics/items/healing.png"),
+  image = image.load("graphics/items/trumpet.png"),
 )
-TURTLE_POTION = ItemType(
+ROOTS = ItemType(
   effect = lambda player : modify_speed(player, 0.8),
-  image = image.load("placeholder/graphics/items/healing.png"),
+  image = image.load("graphics/items/roots.png"),
 )
 
-FLOATING_POTION = ItemType(
+FEATHER = ItemType(
   effect = lambda player : modify_knockback_duration(player, 100),
-  image = image.load("placeholder/graphics/items/healing.png"),
+  image = image.load("graphics/items/feather.png"),
 )
-ENDURANCE_POTION = ItemType(
+BELT = ItemType(
   effect = lambda player : modify_knockback_duration(player, -100),
-  image = image.load("placeholder/graphics/items/healing.png"),
+  image = image.load("graphics/items/belt.png"),
 )
 
-DANCING_POTION = ItemType(
+COMPASS = ItemType(
   effect = lambda player : modify_dodge_speed_multiplier(player, 0.5),
-  image = image.load("placeholder/graphics/items/healing.png"),
+  image = image.load("graphics/items/compass.png"),
 )
-STONE_POTION = ItemType(
+CHEESE = ItemType(
   effect = lambda player : modify_dodge_speed_multiplier(player, -0.5),
-  image = image.load("placeholder/graphics/items/healing.png"),
+  image = image.load("graphics/items/cheese.png"),
 )
