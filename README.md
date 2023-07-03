@@ -22,7 +22,7 @@ Some of these assets were heavily modified by moltisantic. The map was made with
 
 ### Weapons
 
-Melee weapons from [32x32 All Pixel MELEE Weapons for RPG FREE](https://johnmartpixel25.itch.io/32x32-pixel-weapons-for-rpg-free?download) by JohnMartPixel25.
+Melee weapons icons and animations from [32x32 All Pixel MELEE Weapons for RPG FREE](https://johnmartpixel25.itch.io/32x32-pixel-weapons-for-rpg-free?download) by JohnMartPixel25.
 
 ### Items
 

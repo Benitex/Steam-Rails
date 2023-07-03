@@ -3,7 +3,7 @@ from scripts.player.weapon.weapon_type import WeaponType
 
 SWORD = WeaponType(
   is_melee = True,
-  icon = image.load("placeholder/graphics/icons/sword.png"),
+  icon = image.load("graphics/icons/sword.png"),
   attack_animation = image.load("graphics/weapons/sword.png"),
   sound_effect = mixer.Sound("audio/sound_effects/weapons/sword.wav"),
   damage = 2,
@@ -15,8 +15,8 @@ SWORD = WeaponType(
 
 GREAT_SWORD = WeaponType(
   is_melee = True,
-  icon = image.load("placeholder/graphics/icons/great_sword.png"),
-  attack_animation = image.load("placeholder/graphics/item.png"),
+  icon = image.load("graphics/icons/great_sword.png"),
+  attack_animation = image.load("graphics/weapons/great_sword.png"),
   sound_effect = mixer.Sound("audio/sound_effects/weapons/great_sword.wav"),
   damage = 3,
   attack_duration = 400,
@@ -27,8 +27,8 @@ GREAT_SWORD = WeaponType(
 
 HAMMER = WeaponType(
   is_melee = True,
-  icon = image.load("placeholder/graphics/icons/hammer.png"),
-  attack_animation = image.load("placeholder/graphics/item.png"),
+  icon = image.load("graphics/icons/hammer.png"),
+  attack_animation = image.load("graphics/weapons/hammer.png"),
   sound_effect = mixer.Sound("audio/sound_effects/weapons/hammer.wav"),
   damage = 3,
   attack_duration = 400,
@@ -39,8 +39,8 @@ HAMMER = WeaponType(
 
 LANCE = WeaponType(
   is_melee = True,
-  icon = image.load("placeholder/graphics/icons/lance.png"),
-  attack_animation = image.load("placeholder/graphics/item.png"),
+  icon = image.load("graphics/icons/lance.png"),
+  attack_animation = image.load("graphics/weapons/lance.png"),
   sound_effect = mixer.Sound("audio/sound_effects/weapons/lance.wav"),
   damage = 2,
   attack_duration = 300,
@@ -51,8 +51,8 @@ LANCE = WeaponType(
 
 DAGGER = WeaponType(
   is_melee = True,
-  icon = image.load("placeholder/graphics/icons/dagger.png"),
-  attack_animation = image.load("placeholder/graphics/item.png"),
+  icon = image.load("graphics/icons/dagger.png"),
+  attack_animation = image.load("graphics/weapons/dagger.png"),
   sound_effect = mixer.Sound("audio/sound_effects/weapons/dagger.wav"),
   damage = 1,
   attack_duration = 200,
@@ -79,7 +79,7 @@ SHOTGUN = WeaponType(
   icon = image.load("placeholder/graphics/icons/shotgun.png"),
   attack_animation = image.load("placeholder/graphics/gun.png"),
   sound_effect = mixer.Sound("audio/sound_effects/weapons/shotgun.wav"),
-  damage = 2,
+  damage = 3,
   bullet_speed = 0.2,
   attack_duration = 700,
   knockback_intensity = 0.3,
