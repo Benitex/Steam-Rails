@@ -63,8 +63,8 @@ DAGGER = WeaponType(
 
 PISTOL = WeaponType(
   is_melee = False,
-  icon = image.load("placeholder/graphics/icons/pistol.png"),
-  attack_animation = image.load("placeholder/graphics/gun.png"),
+  icon = image.load("graphics/icons/pistol.png"),
+  attack_animation = image.load("graphics/weapons/pistol_projectile.png"),
   sound_effect = mixer.Sound("audio/sound_effects/weapons/pistol.wav"),
   damage = 1,
   bullet_speed = 0.5,
@@ -76,8 +76,8 @@ PISTOL = WeaponType(
 
 SHOTGUN = WeaponType(
   is_melee = False,
-  icon = image.load("placeholder/graphics/icons/shotgun.png"),
-  attack_animation = image.load("placeholder/graphics/gun.png"),
+  icon = image.load("graphics/icons/shotgun.png"),
+  attack_animation = image.load("graphics/weapons/shotgun_projectile.png"),
   sound_effect = mixer.Sound("audio/sound_effects/weapons/shotgun.wav"),
   damage = 3,
   bullet_speed = 0.2,
@@ -89,8 +89,8 @@ SHOTGUN = WeaponType(
 
 BOW = WeaponType(
   is_melee = False,
-  icon = image.load("placeholder/graphics/icons/bow.png"),
-  attack_animation = image.load("placeholder/graphics/gun.png"),
+  icon = image.load("graphics/icons/bow.png"),
+  attack_animation = image.load("graphics/weapons/bow_projectile.png"),
   sound_effect = mixer.Sound("audio/sound_effects/weapons/bow.wav"),
   damage = 2,
   bullet_speed = 0.2,
@@ -102,8 +102,8 @@ BOW = WeaponType(
 
 MACHINE_GUN = WeaponType(
   is_melee = False,
-  icon = image.load("placeholder/graphics/icons/machine_gun.png"),
-  attack_animation = image.load("placeholder/graphics/gun.png"),
+  icon = image.load("graphics/icons/machine_gun.png"),
+  attack_animation = image.load("graphics/weapons/pistol_projectile.png"),
   sound_effect = mixer.Sound("audio/sound_effects/weapons/machine_gun.wav"),
   damage = 1,
   bullet_speed = 1,
@@ -115,8 +115,8 @@ MACHINE_GUN = WeaponType(
 
 BAZOOKA = WeaponType(
   is_melee = False,
-  icon = image.load("placeholder/graphics/icons/bazooka.png"),
-  attack_animation = image.load("placeholder/graphics/gun.png"),
+  icon = image.load("graphics/icons/bazooka.png"),
+  attack_animation = image.load("graphics/weapons/bazooka_projectile.png"),
   sound_effect = mixer.Sound("audio/sound_effects/weapons/bazooka.wav"),
   damage = 3,
   bullet_speed = 0.2,
