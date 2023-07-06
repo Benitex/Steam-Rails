@@ -18,7 +18,7 @@ class Room:
     self.chests = chests or []
     self.door = Door(
       sprite = self.DOOR_SPRITE,
-      x = 736, y = 256,
+      x = 672, y = 224,
     )
 
     if len(self.chests) == 0:
@@ -28,7 +28,7 @@ class Room:
             sprite = self.CHEST_SPRITE,
             weapon_type = random.choice(weapons),
             x = 288 + player_number * 96,
-            y = 192,
+            y = 160,
           ))
 
     if generate_enemies and len(self.enemies) == 0:
@@ -136,7 +136,7 @@ class Room:
       enemies.append(Enemy(
         enemy_type = enemy_type,
         difficulty_multiplier = difficulty_multiplier,
-        x = random.randint(7 * self.TILESET.tile_size, 18 * self.TILESET.tile_size - enemy_type.width),
-        y = random.randint(5 * self.TILESET.tile_size, 12 * self.TILESET.tile_size - enemy_type.height),
+        x = random.randint(9 * self.TILESET.tile_size, 18 * self.TILESET.tile_size - enemy_type.width),
+        y = random.randint(5 * self.TILESET.tile_size, 10 * self.TILESET.tile_size - enemy_type.height),
       ))
     return enemies

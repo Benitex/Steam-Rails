@@ -21,14 +21,14 @@ class InitialRoom(Room):
           is_infinite = True,
           is_open = True,
           sprite = self.CHEST_SPRITE,
-          x = 320, y = 192,
+          x = 320, y = 160,
         ),
         Chest(
           weapon_type = random.choice(ranged_weapons),
           is_infinite = True,
           is_open = True,
           sprite = self.CHEST_SPRITE,
-          x = 448, y = 192,
+          x = 448, y = 160,
         ),
       ],
     )
@@ -92,7 +92,7 @@ class InitialRoom(Room):
 
         players.append(Player(
           x = 288 + number_of_players * 96,
-          y = 384,
+          y = 320,
           controls = controls,
           spritesheet = self.PLAYER_SPRITES[number_of_players],
         ))

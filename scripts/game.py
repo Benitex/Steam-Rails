@@ -79,8 +79,8 @@ class SteamRails:
     pygame.mixer.Sound.play(self.DOOR_SOUND_EFFECT)
 
     for player_number, player in enumerate(self.players):
-      player.x = 96
-      player.y = 256 + player_number * 32
+      player.x = 160
+      player.y = 224 + player_number * 32
 
       # Desativando ataques
       player.attack_timer = player.weapon.type.attack_duration
