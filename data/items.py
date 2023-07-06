@@ -1,6 +1,6 @@
 from pygame import image
 from scripts.items.item_type import ItemType
-from data.item_effects import *
+from scripts.items.item_effects import *
 
 PINK_ROSE = ItemType(
   effect = lambda player : modify_max_health(player, 2),
