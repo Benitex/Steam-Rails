@@ -6,7 +6,7 @@ from scripts.game import SteamRails
 game = SteamRails()
 screen = pygame.display.set_mode((832, 480))
 clock = pygame.time.Clock()
-font = pygame.font.Font("placeholder/graphics/font.ttf", 12) # TODO adicionar fonte real
+font = pygame.font.Font("graphics/font/circulating_font.ttf", 12)
 
 music = pygame.mixer.music.load("audio/music/Daily Work.ogg")
 pygame.mixer.music.play(loops = -1)

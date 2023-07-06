@@ -8,19 +8,26 @@ class PlayerUIBar:
     self.x = x
     self.y = y
 
-  def draw(self, screen: pygame.Surface):
-    # TODO adicionar imagem de fundo
+  def draw(self, screen: pygame.Surface, font: pygame.font.Font):
+    self.__draw_player_sprite(screen)
     self.__draw_weapon_icon(screen)
-    self.__draw_health_bar(screen)
+    self.__draw_health_bar(screen, font)
+
+  def __draw_player_sprite(self, screen: pygame.Surface):
+    screen.blit(
+      source = self.player.spritesheet,
+      dest = (self.x + 10, self.y - 22),
+      area = (0, 0, self.player.width, self.player.height * 2),
+    )
 
   def __draw_weapon_icon(self, screen: pygame.Surface):
     if isinstance(self.player.weapon, Weapon):
       screen.blit(
         source = self.player.weapon.type.icon,
-        dest = (self.x + 10, self.y + 10),
+        dest = (self.x + 10, self.y + 42),
       )
 
-  def __draw_health_bar(self, screen: pygame.Surface):
+  def __draw_health_bar(self, screen: pygame.Surface, font: pygame.font.Font):
     pygame.draw.rect(
       surface = screen,
       rect = pygame.Rect(
@@ -30,4 +37,9 @@ class PlayerUIBar:
         16,
       ),
       color = (69, 194, 38),
+    )
+
+    screen.blit(
+      source = font.render(f"{self.player.health} / {self.player.max_health}", False, "white"),
+      dest = (self.x + 58, self.y + 24),
     )

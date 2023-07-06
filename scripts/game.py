@@ -33,7 +33,7 @@ class SteamRails:
         player = player,
         x = 16 + 288 * player_number,
         y = 16,
-      ).draw(screen)
+      ).draw(screen, font)
 
     screen.blit(
       source = font.render(f"Room number: {self.room_number}", False, "white"),
