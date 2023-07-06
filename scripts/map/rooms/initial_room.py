@@ -63,10 +63,9 @@ class InitialRoom(Room):
     ),
   ]
   PLAYER_SPRITES = [
-    # TODO adicionar sprites reais
-    pygame.image.load("placeholder/graphics/player.png"),
-    pygame.image.load("placeholder/graphics/player.png"),
-    pygame.image.load("placeholder/graphics/player.png"),
+    pygame.image.load("graphics/players/player_1.png"),
+    pygame.image.load("graphics/players/player_2.png"),
+    pygame.image.load("graphics/players/player_3.png"),
   ]
 
   def update(self, players: list[Player], keys_pressed: pygame.key.ScancodeWrapper):

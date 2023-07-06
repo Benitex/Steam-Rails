@@ -2,6 +2,14 @@
 
 Some of these assets were modified by [moltisantic](https://github.com/moltisantic). The map was made with [Tiled](https://www.mapeditor.org).
 
+## Players
+
+Player spritesheets from the steampunk section of [Sithjester's RMXP Resources](https://forums.rpgmakerweb.com/index.php?threads/sithjesters-rmxp-resources.144609/) by Sithjester, Enterbrain/Gotcha, Gotcha Games, Mack, Tana (Giant Base, Barret and Titan; Bigger Man Base, Joachim), Iceaxe/Studio Pickle (Angel02 Hair, filled in gaps left by wings for Shizuma).
+
+## Enemies
+
+Enemy spritesheets from [Enemy Galore 1](https://admurin.itch.io/enemy-galore-1) by [Admurin](https://admurin.itch.io/).
+
 ## Weapons
 
 Melee weapons icons and animations from [32x32 All Pixel MELEE Weapons for RPG FREE](https://johnmartpixel25.itch.io/32x32-pixel-weapons-for-rpg-free?download) by JohnMartPixel25.

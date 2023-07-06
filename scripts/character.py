@@ -13,7 +13,7 @@ class Character(Entity):
 
     self.spritesheet = spritesheet
     self.number_of_frames = number_of_frames
-    self.frame_duration = 1000 // number_of_frames
+    self.frame_duration = 600 // number_of_frames
 
   iframes = 400
   iframes_timer = iframes

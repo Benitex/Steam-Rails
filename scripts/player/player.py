@@ -21,7 +21,7 @@ class Player(Character):
       health = self.max_health,
       speed = self.speed,
       spritesheet = spritesheet,
-      number_of_frames = 11,
+      number_of_frames = 4,
     )
     self.controls = controls
 
