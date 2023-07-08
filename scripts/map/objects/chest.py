@@ -28,7 +28,7 @@ class Chest(Entity):
     if self.is_open:
       screen.blit(
         source = self.weapon_type.icon,
-        dest = (self.x, self.y - 32),
+        dest = (self.x, self.y - 32 * 2),
       )
 
   def change_weapons(self, player_weapon = None) -> Weapon:

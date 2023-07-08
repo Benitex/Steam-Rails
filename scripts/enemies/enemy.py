@@ -17,6 +17,7 @@ class Enemy(Character):
       speed = enemy_type.speed,
       spritesheet = enemy_type.spritesheet,
       number_of_frames = enemy_type.number_of_frames,
+      scale = 1,
     )
     self.type = enemy_type
     self.difficulty_multiplier = difficulty_multiplier
@@ -103,7 +104,9 @@ class Enemy(Character):
     return drops
 
   def __move_towards_target(self, dt: int):
-    if not isinstance(self.target, Character): return
+    if not isinstance(self.target, Character):
+      self.animation_frame = 0
+      return
 
     normalizer = self.__movement_normalizer()
 
@@ -120,7 +123,9 @@ class Enemy(Character):
       self.x -= self.type.speed / normalizer * dt
 
   def __move_away_from_target(self, dt: int):
-    if not isinstance(self.target, Character): return
+    if not isinstance(self.target, Character):
+      self.animation_frame = 0
+      return
 
     normalizer = self.__movement_normalizer()
 

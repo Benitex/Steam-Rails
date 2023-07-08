@@ -4,8 +4,8 @@ from scripts.entity import Entity
 from data.directions import Directions
 
 class Character(Entity):
-  def __init__(self, x: float, y: float, width: int, height: int, direction: Directions, health: int, speed: float, spritesheet: pygame.Surface, number_of_frames: int) -> None:
-    super().__init__(x, y, width, height)
+  def __init__(self, x: float, y: float, width: int, height: int, direction: Directions, health: int, speed: float, spritesheet: pygame.Surface, number_of_frames: int, scale = 2) -> None:
+    super().__init__(x, y, width, height, scale)
 
     self.direction = direction
     self.health = health

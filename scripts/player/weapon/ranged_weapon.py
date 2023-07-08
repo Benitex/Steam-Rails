@@ -33,7 +33,7 @@ class RangedWeapon(Weapon):
     for bullet in bullets_to_be_removed:
       self.bullets.remove(bullet)
 
-  def start_attack(self, x: float, y: float, direction: Directions):
+  def start_attack(self, x: float, y: float, direction: Directions, player_width = 32):
     super().start_attack(x, y, direction)
 
     # Inversão de width e height se estiver olhando para os lados
@@ -47,9 +47,9 @@ class RangedWeapon(Weapon):
 
     # Divisão da colisão da largura igualmente para os dois lados
     if direction == Directions.UP or direction == Directions.DOWN:
-      x -= width / 2 - 16
+      x -= width / 2 - player_width
     elif direction == Directions.LEFT or direction == Directions.RIGHT:
-      y -= height / 2 - 16
+      y -= height / 2 - player_width
 
     self.bullets.append(
       Bullet(

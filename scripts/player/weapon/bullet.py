@@ -3,8 +3,8 @@ from scripts.entity import Entity
 from data.directions import Directions
 
 class Bullet(Entity):
-  def __init__(self, sprite: pygame.Surface, x: float, y: float, width: int, height: int, speed: float, direction: Directions) -> None:
-    super().__init__(x, y, width, height)
+  def __init__(self, sprite: pygame.Surface, x: float, y: float, width: int, height: int, speed: float, direction: Directions, scale = 1) -> None:
+    super().__init__(x, y, width, height, scale)
     self.sprite = sprite
     self.speed = speed
     self.direction = direction

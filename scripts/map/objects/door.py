@@ -17,7 +17,7 @@ class Door(Entity):
     if not self.is_open:
       screen.blit(
         source = self.sprite,
-        dest = (self.x, self.y - 32),
+        dest = (self.x, self.y - 32 * 2),
       )
 
   def should_change_room(self, players: list[Player]) -> bool:

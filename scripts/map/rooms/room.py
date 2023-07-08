@@ -39,8 +39,8 @@ class Room:
       self.enemies += self.generate_enemies(number_of_enemies, enemy_difficulty_multiplier)
 
   TILESET = Tileset(
-    image = pygame.image.load("graphics/tileset.png"),
-    tile_size = 32,
+    image = pygame.transform.scale2x(pygame.image.load("graphics/tileset.png")).convert_alpha(),
+    tile_size = 64,
     tiles_in_a_row = 9,
     collisionable_tiles = [
       0,
@@ -120,14 +120,11 @@ class Room:
             y = (tile_number // self.MAP_WIDTH) * self.TILESET.tile_size,
             width = self.TILESET.tile_size,
             height = self.TILESET.tile_size,
+            scale = 1,
           )
           if tile not in colliders: colliders.append(tile)
 
     return colliders
-
-  def move_entity_to_tile(self, entity: Entity, x: int, y: int):
-    entity.x = x * self.TILESET.tile_size
-    entity.y = y * self.TILESET.tile_size
 
   def generate_enemies(self, number_of_enemies: int, difficulty_multiplier = 1) -> list[Enemy]:
     enemies = []

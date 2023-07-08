@@ -46,7 +46,7 @@ class MeleeWeapon(Weapon, Entity):
         )
     self.__run_animation(dt)
 
-  def start_attack(self, x: float, y: float, direction: Directions):
+  def start_attack(self, x: float, y: float, direction: Directions, player_width = 32):
     super().start_attack(x, y, direction)
 
     width, height = self.__get_directional_dimensions()
@@ -60,9 +60,9 @@ class MeleeWeapon(Weapon, Entity):
 
     # Divisão da colisão da largura igualmente para os dois lados
     if direction == Directions.UP or direction == Directions.DOWN:
-      self.x -= width / 2 - 16
+      self.x -= width / 2 - player_width
     elif direction == Directions.LEFT or direction == Directions.RIGHT:
-      self.y -= height / 2 - 16
+      self.y -= height / 2 - player_width
 
     self.collider = pygame.Rect(self.x, self.y, width, height)
 

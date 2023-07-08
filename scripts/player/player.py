@@ -11,7 +11,7 @@ from scripts.map.objects.chest import Chest
 from data.directions import Directions
 
 class Player(Character):
-  def __init__(self, controls: PlayerControls, spritesheet: pygame.Surface, x: float, y: float, items = None) -> None:
+  def __init__(self, controls: PlayerControls, spritesheet: pygame.Surface, x: float, y: float, items = None, scale = 2) -> None:
     super().__init__(
       x = x,
       y = y,
@@ -26,6 +26,7 @@ class Player(Character):
     self.controls = controls
 
     self.items = items or []
+    self.speed *= scale
 
   max_health = 5
   attack = 1
@@ -156,6 +157,7 @@ class Player(Character):
         elif type(entity) != Enemy: # entities que "empurram" o jogador
           self.x = x_before_movement
           self.y = y_before_movement
+          self.animation_frame = 0
 
   def __move(self, dt: int, keys_pressed: pygame.key.ScancodeWrapper):
     normalizer = self.__movement_normalizer(keys_pressed)

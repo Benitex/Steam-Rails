@@ -37,12 +37,12 @@ class SteamRails:
 
     screen.blit(
       source = font.render(f"Room number: {self.room_number}", False, "white"),
-      dest = (32, 448),
+      dest = (32 * 2, 448 * 2),
     )
     if len(self.players) == 0 and type(self.current_room) != InitialRoom:
       screen.blit(
         source = font.render("Press space to restart.", False, "white"),
-        dest = (288, 320),
+        dest = (288 * 2, 320 * 2),
       )
 
     pygame.display.update()
@@ -79,8 +79,8 @@ class SteamRails:
     pygame.mixer.Sound.play(self.DOOR_SOUND_EFFECT)
 
     for player_number, player in enumerate(self.players):
-      player.x = 160
-      player.y = 224 + player_number * 32
+      player.x = 160 * 2
+      player.y = (224 + player_number * 32) * 2
 
       # Desativando ataques
       player.attack_timer = player.weapon.type.attack_duration

@@ -1,12 +1,14 @@
-import pygame
-pygame.init()
 from sys import exit
+import pygame
+
+pygame.init()
+screen = pygame.display.set_mode((832 * 2, 480 * 2))
+
 from scripts.game import SteamRails
 
 game = SteamRails()
-screen = pygame.display.set_mode((832, 480))
 clock = pygame.time.Clock()
-font = pygame.font.Font("graphics/font/circulating_font.ttf", 12)
+font = pygame.font.Font("graphics/font/circulating_font.ttf", 12 * 2)
 music = pygame.mixer.music.load("audio/music/Daily Work.ogg")
 
 pygame.mixer.music.play(loops = -1)

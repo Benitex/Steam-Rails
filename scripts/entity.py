@@ -2,11 +2,11 @@ import pygame
 from math import hypot
 
 class Entity:
-  def __init__(self, x: float, y: float, width: int, height: int) -> None:
-    self.x = x
-    self.y = y
-    self.width = width
-    self.height = height
+  def __init__(self, x: float, y: float, width: int, height: int, scale = 2) -> None:
+    self.x = x * scale
+    self.y = y * scale
+    self.width = width * scale
+    self.height = height * scale
 
     self.collider = pygame.Rect(
       (self.x, self.y),

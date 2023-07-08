@@ -63,9 +63,9 @@ class InitialRoom(Room):
     ),
   ]
   PLAYER_SPRITES = [
-    pygame.image.load("graphics/players/player_1.png"),
-    pygame.image.load("graphics/players/player_2.png"),
-    pygame.image.load("graphics/players/player_3.png"),
+    pygame.transform.scale2x(pygame.image.load("graphics/players/player_1.png")).convert_alpha(),
+    pygame.transform.scale2x(pygame.image.load("graphics/players/player_2.png")).convert_alpha(),
+    pygame.transform.scale2x(pygame.image.load("graphics/players/player_3.png")).convert_alpha(),
   ]
 
   def update(self, players: list[Player], keys_pressed: pygame.key.ScancodeWrapper):
