@@ -1,11 +1,11 @@
 from scripts.player.player import Player
 
-def modify_max_health(player: Player, amount: int):
-  player.max_health += amount
-  player.health += amount
+def modify_max_health(player: Player, percentage: float):
+  player.max_health = int(player.max_health * percentage)
+  heal(player, percentage - 1)
 
-def heal(player: Player, amount: int):
-  player.health += amount
+def heal(player: Player, percentage: float):
+  player.health += int(player.max_health * percentage)
   if player.health > player.max_health:
     player.health = player.max_health
 

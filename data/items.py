@@ -3,15 +3,15 @@ from scripts.items.item_type import ItemType
 from scripts.items.item_effects import *
 
 PINK_ROSE = ItemType(
-  effect = lambda player : modify_max_health(player, 2),
+  effect = lambda player : modify_max_health(player, 1.2),
   image = image.load("graphics/items/pink_rose.png"),
 )
 EGGS = ItemType(
-  effect = lambda player : heal(player, 1),
+  effect = lambda player : heal(player, 0.1),
   image = image.load("graphics/items/eggs.png"),
 )
 HONEY = ItemType(
-  effect = lambda player : heal(player, 2),
+  effect = lambda player : heal(player, 0.3),
   image = image.load("graphics/items/honey.png"),
 )
 

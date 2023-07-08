@@ -15,7 +15,7 @@ class Character(Entity):
     self.number_of_frames = number_of_frames
     self.frame_duration = 600 // number_of_frames
 
-  iframes = 400
+  iframes = 600
   iframes_timer = iframes
 
   knockback_duration = 100

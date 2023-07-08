@@ -28,7 +28,7 @@ class Player(Character):
     self.items = items or []
     self.speed *= scale
 
-  max_health = 5
+  max_health = 70
   attack = 1
   speed = 0.15
   weapon = None
