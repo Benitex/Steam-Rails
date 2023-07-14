@@ -1,5 +1,7 @@
 # Steam Rails
 
+![Steam Rails logo](https://github.com/Benitex/Steam-Rails/assets/64505839/6bce9dc0-0f83-4d13-9f40-3024f64819e9)
+
 Steam Rails is a game developed using Pygame, in which up to three players can explore an infinite steampunk-themed train, fighting monsters and getting stronger after each room.
 
 Each wagon is a procedurally-generated room with different enemies and challenges to overcome. After defeating enemies, they might drop items that will modify the attributes of the player that gets them. After every ten rooms, enemies get stronger too.
@@ -37,7 +39,7 @@ Player 3:
 
 ## Credits
 
-This game was made in a month, as the game jam-like final project for the Programming Practices discipline at PUC-Rio, by Benitex, TuzinhoRisonho, and moltisantic in our first college period.
+This game was made in a month, as the game jam-like final project for the Programming Practices discipline at PUC-Rio, by Benitex, TuzinhoRisonho, and moltisantic in our first university period.
 
 [Benitex](https://github.com/Benitex) - Lead Programmer / Game Designer
 
